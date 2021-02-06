@@ -1,0 +1,16 @@
+﻿﻿<!-- nav -->
+<nav class="navbar navbar-expand navbar-dark bg-danger"  *ngIf="currentUser">
+    <div class="navbar-nav text-white">
+        <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+        <a class="nav-item nav-link" routerLink="/usuario" routerLinkActive="active" *ngIf="currentUser.privilegio === 'ADMIN'">Usuario</a>
+        <a class="nav-item nav-link" routerLink="/equipamento" routerLinkActive="active" *ngIf="currentUser.privilegio === 'ADMIN' || currentUser.privilegio === 'GESTOR'">Equipamento</a>
+        <a class="nav-item nav-link" routerLink="/controle" routerLinkActive="active">Controle</a>
+        <a class="nav-item nav-link" (click)="logout()">Logout</a>
+    </div>
+</nav>
+
+<!-- main app container -->
+<div class="app-container" >
+    
+    <router-outlet></router-outlet>
+</div>

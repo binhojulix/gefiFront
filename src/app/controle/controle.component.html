@@ -1,0 +1,51 @@
+<p-toast></p-toast>
+
+<div class="card">
+    <p-toolbar styleClass="p-mb-4">
+
+        
+        <ng-template pTemplate="right">
+            <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help"></button>
+        </ng-template>
+        
+    </p-toolbar>
+
+    <p-table #dt [value]="controles" [rows]="10" [paginator]="true" [globalFilterFields]="['dataDevolucao','dataRetirada','Solicitante','Equipamento']"
+        [(selection)]="controlesSelecionados" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Mostrando {first} de {last} do total de  {totalRecords} ítens" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-m-0">Controle de Ferramentas</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Pesquisar..." />
+                </span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="dataDevolucao">Data da devolução <p-sortIcon field="dataDevolucao"></p-sortIcon></th>
+                <th pSortableColumn="dataRetirada">Data da entrega <p-sortIcon field="dataRetirada"></p-sortIcon></th>
+                <th pSortableColumn="Solicitante">Solicitante <p-sortIcon field="Solicitante"></p-sortIcon></th>
+                <th pSortableColumn="Equipamento">Equipamento <p-sortIcon field="Equipamento"></p-sortIcon></th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-controle>
+            <tr>
+                <td>{{controle.dataDevolucao |date:'dd/MM/yyyy'}}</td>
+                <td>{{controle.dataRetirada | date:'dd/MM/yyyy'}}</td>
+                <td>{{controle.usuario.nome}}</td>
+                <td>{{controle.equipamento.descricao}}</td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                Total:  {{controles ? controles.length : 0 }} controles
+            </div>
+        </ng-template>
+
+    </p-table>
+</div>

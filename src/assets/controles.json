@@ -1,0 +1,293 @@
+{
+	"data": [
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		},
+		{
+			"id": "1000",
+			"dataRetirada":"2020-01-01T23:28:56.782Z",
+			"dataDevolucao":"2020-01-01T23:28:56.782Z",
+			"equipamento":{
+				"id": "1000",
+				"codigoCPTM": "063900",
+				"modelo": " ET-1100A",
+				"descricao": "Multimetro",
+				"fabricante": "mnipa"
+			},
+			"usuario":{
+				"id": "1000",
+				"nome": "fabio",
+				"login": "fabiolu",
+				"matricula": "920062970"
+			}
+		}
+		
+	]
+}

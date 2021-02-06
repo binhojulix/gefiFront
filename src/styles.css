@@ -1,0 +1,21 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~primeng/resources/primeng.min.css";
+@import "~primeng/resources/themes/saga-blue/theme.css";
+@import "~primeflex/primeflex.css";
+@import "~primeicons/primeicons.css";
+@import "~quill/dist/quill.snow.css";
+a { cursor: pointer; }
+
+.app-container {
+    min-height: 320px;
+    overflow: hidden;
+    padding: 40px;
+  
+}
+
+.btn-delete-user {
+    width: 40px;
+    text-align: center;
+    box-sizing: content-box;
+}
+

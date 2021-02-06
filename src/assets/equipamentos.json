@@ -1,0 +1,214 @@
+{
+	"data": [
+		{
+			"id": "1000",
+			"codigoCPTM": "063900",
+			"modelo": " ET-1100A",
+			"descricao": "Multimetro",
+			"fabricante": "mnipa"
+		},
+		{
+			"id": "1001",
+            "codigoCPTM": "063901",
+			"modelo": "Bamboo Watch",
+			"descricao": "Multimetro",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1002",
+            "codigoCPTM": "063902",
+			"modelo": " ET-1100A",
+			"descricao": "Multimetro",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1003",
+			"codigoCPTM": "063903",
+			"modelo": " ET-1100A",
+			"descricao": "Multimetro",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1004",
+			"codigoCPTM": "063904",
+			"modelo": " ET-1100A",
+			"descricao": "Multimetro",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1005",
+            "codigoCPTM": "063905",
+			"modelo": " ET-1100A",
+			"descricao": "Amperimetro",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1006",
+            "codigoCPTM": "063906",
+			"modelo": " ET-1100A",
+			"descricao": "Product Description",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1007",
+            "codigoCPTM": "063907",
+			"modelo": " ET-1100A",
+			"descricao": "Alicate",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1008",
+            "codigoCPTM": "063908",
+			"modelo": " ET-1100A",
+			"descricao": "Chave de fenda",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1009",
+            "codigoCPTM": "063909",
+			"modelo": " ET-1100A",
+			"descricao": "Ferro de Solda",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1010",
+			"codigoCPTM": "063910",
+			"modelo": " ET-1100A",
+			"descricao": "Estação de solda",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1011",
+            "codigoCPTM": "063911",
+			"modelo": " ET-1100A",
+			"descricao": "Alicate de corte",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1012",
+            "codigoCPTM": "063912",
+			"modelo": " ET-1100A",
+			"descricao": "Alicate Universal",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1013",
+			"codigoCPTM": "063913",
+			"modelo": " ET-1100A",
+			"descricao": "Micrometro",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1014",
+            "codigoCPTM": "063914",
+			"modelo": " ET-1100A",
+			"descricao": "Paquimetro",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1015",
+            "codigoCPTM": "063915",
+			"modelo": " ET-1100A",
+			"descricao": "Relogio Comparador",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1016",
+            "codigoCPTM": "063916",
+			"modelo": " ET-1100A",
+			"descricao": "Chave philips",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1017",
+            "codigoCPTM": "063917",
+			"modelo": " ET-1100A",
+			"descricao": "Detector de tensão",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1018",
+            "codigoCPTM": "063918",
+			"modelo": " ET-1100A",
+			"descricao": "Docker",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1019",
+            "codigoCPTM": "063919",
+			"modelo": " ET-1100A",
+			"descricao": "Giga de teste",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1020",
+            "codigoCPTM": "063940",
+			"modelo": " ET-1100A",
+			"descricao": "Termometro",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1021",
+			"codigoCPTM": "063920",
+			"modelo": " ET-1100A",
+			"descricao": "Termometro",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1022",
+            "codigoCPTM": "063921",
+			"modelo": " ET-1100A",
+			"descricao": "Marreta",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1023",
+			"codigoCPTM": "063922",
+			"modelo": " ET-1100A",
+			"descricao": "Martelo",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1024",
+            "codigoCPTM": "063923",
+			"modelo": " ET-1100A",
+			"descricao": "Alcool",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1025",
+			"codigoCPTM": "063924",
+			"modelo": " ET-1100A",
+			"descricao": "Fita isolante",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1026",
+			"codigoCPTM": "063925",
+			"modelo": " ET-1100A",
+			"descricao": "Crimpador",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1027",
+			"codigoCPTM": "063926",
+			"modelo": " ET-1100A",
+			"descricao": "Cabo rs232",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1028",
+            "codigoCPTM": "063927",
+			"modelo": " ET-1100A",
+			"descricao": "Raspberry",
+			"fabricante": "bamboo-watch.jpg"
+		},
+		{
+			"id": "1029",
+            "codigoCPTM": "063928",
+			"modelo": " ET-1100A",
+			"descricao": "Arduino",
+			"fabricante": "bamboo-watch.jpg"
+		}
+	]
+}
