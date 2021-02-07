@@ -99,7 +99,23 @@
             <input type="text" pInputText id="codigoCPTM" [(ngModel)]="equipamento.codigo_cptm" required autofocus />
             <small class="p-invalid" *ngIf="submitted && !equipamento.codigo_cptm">Código CPTM is required.</small>
         </div>
+
+        <div class="p-field">
+           
+        <div class="p-field-radiobutton">
+            <p-radioButton name="coletivo" value="1" [(ngModel)]="equipamento.coletivo" inputId="coletivo"></p-radioButton>
+            <label for="coletivo">Coletivo</label>
+        </div>
+
+        <div class="p-field-radiobutton">
+            <p-radioButton name="individual" value="0" [(ngModel)]="equipamento.coletivo" inputId="individual"></p-radioButton>
+            <label for="individual">Individual</label>
+        </div>
+      
+
+        </div>
     
+        
     
     </ng-template>
     

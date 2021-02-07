@@ -20,6 +20,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import {CheckboxModule} from 'primeng/checkbox';
 
 @NgModule({
   imports: [
@@ -42,6 +43,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 	InputNumberModule,
 	ConfirmDialogModule,
 	InputTextareaModule,
+	CheckboxModule
   
   ],
   exports: [
@@ -63,6 +65,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 	InputNumberModule,
 	ConfirmDialogModule,
 	InputTextareaModule,
+	CheckboxModule
   ],
   providers: [MessageService, ConfirmationService]
 })

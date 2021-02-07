@@ -40,7 +40,7 @@ export class ControleService {
   addControle (Controle): Observable<Controle> {
     return this.http.post<Controle>(apiUrl, Controle, httpOptions).pipe(
       // tslint:disable-next-line:no-shadowed-variable
-      tap((Controle: Controle) => console.log(`adicionou o produto com w/ id=${Controle.id}`)),
+      tap((Controle: Controle) => console.log(`adicionou o produto com w/ id=${Controle.id_usuario_equipamento}`)),
       catchError(this.handleError<Controle>('addControle'))
     );
   }

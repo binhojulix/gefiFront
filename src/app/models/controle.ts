@@ -3,10 +3,8 @@ import { Equipamento } from "./equipamento";
 import { Usuario } from "./usuario";
 
 export interface Controle {
-    id?:string;
-    dataDevolucao?:Date;
+    id_usuario_equipamento?:Number;
     usuario?:Usuario;
     equipamento?:Equipamento;
-    dataRetirada?:Date;
-    departamento?:Departamento;
+
 }

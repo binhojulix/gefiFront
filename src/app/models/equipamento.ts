@@ -4,4 +4,5 @@ export interface Equipamento {
     modelo?:string;
     fabricante?:string;
     descricao_equipamento?:string;
+    coletivo?:Number;
 }
