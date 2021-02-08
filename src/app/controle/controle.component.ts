@@ -21,8 +21,7 @@ export class ControleComponent implements OnInit {
 
   usuarios: Usuario[];
   equipamentos:Equipamento[];
-  usuarioSelecionado:Usuario;
-  equipamentoSelecionado:Equipamento;
+
   labelEquipamento:String;
 
 
@@ -43,18 +42,7 @@ export class ControleComponent implements OnInit {
     private usuarioService: UserService,
     private equipamentoService:EquipamentoService,
     private confirmationService: ConfirmationService) {
-      this.countries = [
-        { name: "Australia", code: "01" },
-        { name: "Brazil", code: "02" },
-        { name: "China", code: "03" },
-        { name: "Egypt", code: "04" },
-        { name: "France", code: "05" },
-        { name: "Germany", code: "06" },
-        { name: "India", code: "07" },
-        { name: "Japan", code: "08" },
-        { name: "Spain", code: "09" },
-        { name: "United States", code: "10" }
-      ];
+  
      }
 
     
@@ -112,7 +100,7 @@ export class ControleComponent implements OnInit {
   
   listarEquipamentos(){
         
-    this.equipamentoService.getEquipamentos()
+    this.equipamentoService.getEquipamentosNaoAssociados()
         .subscribe(
             data => {
                 this.equipamentos = data;
@@ -126,7 +114,25 @@ export class ControleComponent implements OnInit {
 
 
   salvarControle(){
-    
+    this.submitted = true;
+        
+
+      this.controleService.addControle(this.controle)
+      .subscribe(
+          response => {
+          console.log(response);
+          this.submitted = true;
+          },
+          error => {
+          console.log(error);
+          });
+        this.controles.push(this.controle);
+        this.messageService.add({severity:'success', summary: 'Successful', 
+        detail: 'Associacao feita com sucesso', life: 3000});
+  
+        this.usuarios = [...this.usuarios];
+        this.controleDialogoAssociarUsuario = false;
+        this.controle = {};
   }
 
 

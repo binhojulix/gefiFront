@@ -10,7 +10,7 @@ const httpOptions = {
 };
 
 
-const apiUrl = `${environment.apiUrl}/controles`;
+const apiUrl = `${environment.apiUrl}/associacoes`;
 
 @Injectable({
   providedIn: 'root'

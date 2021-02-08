@@ -28,6 +28,15 @@ export class EquipamentoService {
       );
   }
 
+  getEquipamentosNaoAssociados(): Observable<Equipamento[]> {
+    const apiUrl = `${environment.apiUrl}/equipamentosnaoassociados`;
+    return this.http.get<Equipamento[]>(apiUrl)
+      .pipe(
+        tap(equipamentos => console.log('leu os equipamentos')),
+        catchError(this.handleError('getEquipamentosNaoAssociados', []))
+      );
+  }
+
   getEquipamento(id: number): Observable<Equipamento> {
     const url = `${apiUrl}/${id}`;
     return this.http.get<Equipamento>(url).pipe(
