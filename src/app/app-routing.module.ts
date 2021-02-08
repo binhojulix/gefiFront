@@ -8,12 +8,16 @@ import { LoginComponent } from './login/login.component';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import {AuthGuard} from './helpers/auth.guard'
+import { FalhaEquipamentoComponent } from './falha-equipamento/falha-equipamento.component';
+import { TransferirEquipamentoComponent } from './transferir-equipamento/transferir-equipamento.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'usuario', component: UsuarioComponent, canActivate: [AuthGuard],  data: { roles: [Role.Admin]} },
   { path: 'controle', component: ControleComponent, canActivate: [AuthGuard] },
+  { path: 'tratar-equipamento', component: FalhaEquipamentoComponent, canActivate: [AuthGuard] },
+  { path: 'transferir-equipamento', component: TransferirEquipamentoComponent, canActivate: [AuthGuard] },
   { path: 'equipamento', component: EquipamentoComponent, canActivate: [AuthGuard], data: { roles: [Role.Gestor, Role.Admin]}},
   { path: '**', component: PaginaNaoEncontradaComponent },
 

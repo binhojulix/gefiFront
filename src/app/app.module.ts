@@ -20,6 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ErrorInterceptor } from '../app/helpers/error.interceptor';
 import { JwtInterceptor } from '../app/helpers/jwt.interceptor';
 import {appInitializer} from '../app/helpers/app.initializer';
+import { FalhaEquipamentoComponent } from './falha-equipamento/falha-equipamento.component';
+import { TransferirEquipamentoComponent } from './transferir-equipamento/transferir-equipamento.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import {appInitializer} from '../app/helpers/app.initializer';
     HomeComponent,
     LoginComponent,
     UsuarioComponent,
-    ControleComponent
+    ControleComponent,
+    FalhaEquipamentoComponent,
+    TransferirEquipamentoComponent
   ],
   imports: [
     BrowserModule,

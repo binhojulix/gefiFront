@@ -1,0 +1,121 @@
+<p-toast></p-toast>
+
+
+<div class="card">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="abrirNovo()"></button>
+            <button pButton pRipple label="Deletar" icon="pi pi-trash" class="p-button-danger" (click)="deletarUsuariosSelecionados()" [disabled]="!usuariosSelecionados || !usuariosSelecionados.length"></button>
+        </ng-template>
+
+        <ng-template pTemplate="right">
+            <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt [value]="usuarios" [rows]="10" [paginator]="true" [globalFilterFields]="['nome','matricula','login']"
+        [(selection)]="usuariosSelecionados" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Mostrando {first} de {last} do total de  {totalRecords} ítens" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-m-0">Gerenciamento de usuarios</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Pesquisar..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="nome">Nome <p-sortIcon field="nome"></p-sortIcon></th>
+                <th pSortableColumn="matricula">Matricula <p-sortIcon field="matricula"></p-sortIcon></th>
+                <th pSortableColumn="login">Login <p-sortIcon field="login"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-usuario>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="usuario"></p-tableCheckbox>
+                </td>
+                <td>{{usuario.nome}}</td>
+                <td>{{usuario.matricula}}</td>
+                <td>{{usuario.login}}</td>
+            
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editaUsuario(usuario)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletaUsuario(usuario)"></button>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                Total:  {{usuarios ? usuarios.length : 0 }} usuarios
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="usuarioDialogo" [style]="{width: '450px'}" header={{title}} [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+
+     
+        <div class="p-field">
+            <label for="nome">Departamento</label>
+            <p-dropdown [options]="departamentos" [(ngModel)]="departamentoSelecionado" placeholder="Departamento" optionLabel="descricao_departamento" ></p-dropdown>
+        </div>
+
+        
+
+        <div class="p-field">
+            <label for="nome">Nome</label>
+            <input type="text" pInputText id="descricao" [(ngModel)]="usuario.nome" required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !usuario.nome">Nome is required.</small>
+        </div>
+
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="matricula">Matricula</label>
+                <input type="text" pInputText id="matricula" [(ngModel)]="usuario.matricula" required autofocus />
+                <small class="p-invalid" *ngIf="submitted && !usuario.matricula">Matricula is required.</small>
+            </div>
+            <div class="p-field p-col">
+                <label for="login">Login</label>
+                <input type="text" pInputText id="login" [(ngModel)]="usuario.login" required autofocus />
+                <small class="p-invalid" *ngIf="submitted && !usuario.login">Login is required.</small>
+            </div>
+        </div>
+
+        <div class="p-field">
+            <label class="p-mb-3">Privilégio</label>
+            <div class="p-formgrid p-grid">
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="category2" name="category" value="GESTOR" [(ngModel)]="usuario.privilegio"></p-radioButton>
+                    <label for="category2">Gestor</label>
+                </div>
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="category3" name="category" value="USER" [(ngModel)]="usuario.privilegio"></p-radioButton>
+                    <label for="category3">Usuário</label>
+                </div>
+                
+            </div>
+        </div>
+    
+
+      
+    
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="escondeDialogo()"></button>
+        <button pButton pRipple label="Savar" icon="pi pi-check" class="p-button-text" (click)="salvaUsuario()"></button>
+    </ng-template>
+
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

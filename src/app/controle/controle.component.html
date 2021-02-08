@@ -32,6 +32,7 @@
             <th pSortableColumn="modelo">Modelo <p-sortIcon field="controle.equipamento.modelo"></p-sortIcon></th>
             <th pSortableColumn="fabricante">Fabricante <p-sortIcon field="controle.equipamento.fabricante"></p-sortIcon></th>
             <th pSortableColumn="codigoCPTM">CodigoCPTM <p-sortIcon field="controle.equipamento.codigo_cptm"></p-sortIcon></th>
+            <th pSortableColumn="status">Status<p-sortIcon field="status"></p-sortIcon></th>
           </tr>
         </ng-template>
 
@@ -46,6 +47,7 @@
                 <td>{{controle.equipamento.fabricante}}</td>
           
                 <td>{{controle.equipamento.codigo_cptm}}</td>
+                <td>{{controle.status}}</td>
             </tr>
         </ng-template>
 

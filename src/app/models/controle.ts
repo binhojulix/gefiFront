@@ -6,5 +6,6 @@ export interface Controle {
     id_usuario_equipamento?:Number;
     usuario?:Usuario;
     equipamento?:Equipamento;
+    status?:string;
 
 }
