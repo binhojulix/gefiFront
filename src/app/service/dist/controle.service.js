@@ -26,7 +26,7 @@ var ControleService = /** @class */ (function () {
     };
     ControleService.prototype.getControlesDoUsuario = function () {
         return this.http.get(apiUrl)
-            .pipe(operators_1.tap(function (controles) { return console.log('leu os Controles'); }), operators_1.catchError(this.handleError('getControles', [])));
+            .pipe(operators_1.tap(function (controles) { return console.log('leu os Controles'); }), operators_1.catchError(this.handleError('getControlesDoUsuario', [])));
     };
     ControleService.prototype.getControle = function (id) {
         var url = apiUrl + "/" + id;

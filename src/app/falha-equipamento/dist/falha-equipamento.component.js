@@ -35,9 +35,9 @@ var FalhaEquipamentoComponent = /** @class */ (function () {
         this.authenticationService = authenticationService;
         this.authenticationService.currentUser.subscribe(function (x) { return _this.currentUser = x; });
     }
-    FalhaEquipamentoComponent.prototype.listarEquipamentosDoUsuario = function () {
+    FalhaEquipamentoComponent.prototype.listarControles = function () {
         var _this = this;
-        this.controleService.getControlesDoUsuario()
+        this.controleService.getControles()
             .subscribe(function (data) {
             _this.controles = data;
             console.log(data);
@@ -46,7 +46,7 @@ var FalhaEquipamentoComponent = /** @class */ (function () {
         });
     };
     FalhaEquipamentoComponent.prototype.ngOnInit = function () {
-        this.listarEquipamentosDoUsuario();
+        this.listarControles();
         console.log("total de equipamentos");
         console.log(this.controles);
     };

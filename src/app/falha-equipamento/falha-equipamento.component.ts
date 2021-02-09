@@ -33,21 +33,22 @@ export class FalhaEquipamentoComponent implements OnInit {
          }
 
    
-    listarEquipamentosDoUsuario(): void {
-        this.controleService.getControlesDoUsuario()
+        listarControles(): void {
+        this.controleService.getControles()
             .subscribe(
             data => {
                 this.controles = data;
-                console.log( data);
+                console.log(data);
             },
             error => {
                 console.log(error);
             });
         }
+        
 
 
     ngOnInit() {
-        this.listarEquipamentosDoUsuario();
+        this.listarControles();
         console.log("total de equipamentos")
         console.log(this.controles);
     }

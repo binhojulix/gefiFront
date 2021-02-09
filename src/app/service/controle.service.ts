@@ -33,7 +33,7 @@ export class ControleService {
     return this.http.get<Controle[]>(apiUrl)
       .pipe(
         tap(controles => console.log('leu os Controles')),
-        catchError(this.handleError('getControles', []))
+        catchError(this.handleError('getControlesDoUsuario', []))
       );
   }
 
