@@ -41,7 +41,7 @@
                 <td>
         
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editaControle(controle)"></button>
-                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="validaFalhaDoEquipamento(controle)"></button>
+                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-warning" (click)="validaFalhaDoEquipamento(controle)"></button>
     
     
                     
@@ -64,7 +64,7 @@
 
 
 
-<p-dialog [(visible)]="controleDialogo" [style]="{width: '450px'}" header="Equipamento Detalhe" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="controleDialogo" [style]="{width: '450px'}" header="Pendencia do equipamento" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
 
         <div class="p-field">
@@ -75,15 +75,15 @@
 
         <div class="p-field">
             <label for="responsavel">Nome do responsável pelo equipamento</label>
-            <input type="text" pInputText id="responsavel" [(ngModel)]="controle.equipamento.fabricante" disabled=true />
+            <input type="text" pInputText id="responsavel" [(ngModel)]="controle.usuario.nome" disabled=true />
          
         </div>
     
 
         <div class="p-field">
             <label for="modelo">Descrição da pendencia</label>
-            <textarea pInputTextarea id="modelo" [(ngModel)]="controle.equipamento.modelo" required autofocus ></textarea>
-            <small class="p-invalid" *ngIf="submitted && !controle.equipamento.modelo">Modelo is required.</small>
+            <textarea pInputTextarea id="modelo" [(ngModel)]="controle.status" required autofocus ></textarea>
+            <small class="p-invalid" *ngIf="submitted && !controle.equipamento.modelo">Status is required.</small>
         </div>
     
 

@@ -75,9 +75,9 @@ var FalhaEquipamentoComponent = /** @class */ (function () {
         var _this = this;
         var id = controle.id_usuario_equipamento;
         this.confirmationService.confirm({
-            message: 'Tem certeza que quer deletar o equipamento ' + controle.equipamento.descricao_equipamento + '?',
+            message: 'Validar equipamento ' + controle.equipamento.descricao_equipamento + '?',
             header: 'Confirmar',
-            icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-check',
             acceptLabel: 'Sim',
             rejectLabel: 'Não',
             accept: function () {
