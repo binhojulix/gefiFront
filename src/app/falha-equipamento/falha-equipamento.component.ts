@@ -1,8 +1,8 @@
 import { Usuario } from './../models/usuario';
 import { AutenticadorService } from './../service/autenticador.service';
 import { Component, OnInit, Input } from '@angular/core';
-import { Equipamento } from '../models/equipamento';
-import { EquipamentoService } from '../service/equipamento.service';
+import { Controle } from '../models/controle';
+import { ControleService } from '../service/controle.service';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 
@@ -14,19 +14,18 @@ import { MessageService } from 'primeng/api';
 })
 export class FalhaEquipamentoComponent implements OnInit {
 
-    equipamentoDialogo: boolean;
+    controleDialogo: boolean;
 
-    equipamentos: Equipamento[];
+    controles: Controle[];
+    controlesSelecionado:Controle[];
 
-    equipamento: Equipamento;
-
-    equipamentosSelecionados: Equipamento[];
+    controle: Controle;
     
     currentUser:Usuario;
 
     submitted: boolean;
 
-    constructor(private equipamentoService: EquipamentoService, 
+    constructor(private controleService: ControleService, 
         private messageService: MessageService, 
         private confirmationService: ConfirmationService,
         private authenticationService: AutenticadorService) {
@@ -34,11 +33,11 @@ export class FalhaEquipamentoComponent implements OnInit {
          }
 
    
-    listarEquipamentos(): void {
-        this.equipamentoService.getEquipamentos()
+    listarEquipamentosDoUsuario(): void {
+        this.controleService.getControlesDoUsuario()
             .subscribe(
             data => {
-                this.equipamentos = data;
+                this.controles = data;
                 console.log( data);
             },
             error => {
@@ -48,99 +47,50 @@ export class FalhaEquipamentoComponent implements OnInit {
 
 
     ngOnInit() {
-        this.listarEquipamentos();
+        this.listarEquipamentosDoUsuario();
         console.log("total de equipamentos")
-        console.log(this.equipamentos);
+        console.log(this.controles);
     }
 
     abrirNovo(){
         
-        this.equipamento = {};
+        this.controle = {};
         this.submitted = false;
-        this.equipamentoDialogo = true;
+        this.controleDialogo = true;
     }
-
-    deletarEquipamentosSelecionados(){
-
-        this.confirmationService.confirm({
-            message: 'Tem certeza que vai  deletar os equipamentos Selecioandos?',
-            header: 'Confirmar',
-            icon: 'pi pi-exclamation-triangle',
-            acceptLabel:'Sim',
-            rejectLabel:'Não',
-            accept: () => {
-
-                this.equipamentosSelecionados.forEach((eqpt)=>{
-                    const id = eqpt.id_equipamento;
-                    this.equipamentoService.deleteEquipamento(id)
-                    .subscribe(
-                        response => {
-                            console.log(response);
-                        },
-                        error => {
-                        console.log(error);
-                        });
-                });
 
    
-               
-                this.equipamentos = this.equipamentos.filter(val => !this.equipamentosSelecionados.includes(val));
-                this.equipamentosSelecionados = null;
-                this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamentos deletados', life: 3000});
-            }
-        });
-    }
-
-    salvarEquipamento(){
+    atualizaControle(){
 
         this.submitted = true;
+        this.controleService.updateControle(this.controle)
+        .subscribe(
+            response => {
+                console.log(response);
+            this.submitted = true;
+        },
+        error => {
+            console.log(error);
+        });
 
-        if (this.equipamento.descricao_equipamento.trim()) {
-            if (this.equipamento.id_equipamento) {
+    
+        this.controles.push(this.controle);
+        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Status atualizado', life: 3000});
 
-                this.equipamentoService.updateEquipamento(this.equipamento.id_equipamento, this.equipamento)
-                .subscribe(
-                    response => {
-                    console.log(response);
-                    this.submitted = true;
-                    },
-                    error => {
-                    console.log(error);
-                    });
 
-                this.equipamentos[this.findIndexById(this.equipamento.id_equipamento)] = this.equipamento;                
-                this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento atualizado', life: 3000});
-            }
-            else {
+        this.controles = [...this.controles];
+        this.controleDialogo = false;
+        this.controle = {};
 
-                this.equipamentoService.addEquipamento(this.equipamento)
-                .subscribe(
-                    response => {
-                    console.log(response);
-                    this.submitted = true;
-                    },
-                    error => {
-                    console.log(error);
-                    });
-                    
-                this.equipamento.id_equipamento = this.createId();
-                this.equipamentos.push(this.equipamento);
-                this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equpamento salvo', life: 3000});
-            }
-
-            this.equipamentos = [...this.equipamentos];
-            this.equipamentoDialogo = false;
-            this.equipamento = {};
-
-        }
+        
     }
 
 
-    deletaEquipamento(equipamento: Equipamento){
-        const id = equipamento.id_equipamento;
+    validaFalhaDoEquipamento(controle: Controle){
+        const id = controle.id_usuario_equipamento;
 
         this.confirmationService.confirm({
-            message: 'Tem certeza que quer deletar o equipamento ' + equipamento.descricao_equipamento + '?',
+            message: 'Tem certeza que quer deletar o equipamento ' + controle.equipamento.descricao_equipamento + '?',
             header: 'Confirmar',
             icon: 'pi pi-exclamation-triangle',
             acceptLabel:'Sim',
@@ -149,13 +99,13 @@ export class FalhaEquipamentoComponent implements OnInit {
             accept: () => {
               
 
-                this.equipamentoService.deleteEquipamento(id)
+                this.controleService.updateControle(controle)
                 .subscribe(
                     response => {
                         console.log(response);
-                        this.equipamentos = this.equipamentos.filter(val =>  val.id_equipamento
-                             !== equipamento.id_equipamento);
-                        this.equipamento = {};
+                        this.controles = this.controles.filter(val =>  val.id_usuario_equipamento
+                             !== this.controle.id_usuario_equipamento);
+                        this.controle = {};
                         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento deletado', life: 3000});
                     },
                     error => {
@@ -167,39 +117,19 @@ export class FalhaEquipamentoComponent implements OnInit {
         });
     }
 
-    editaEquipamento(equipamento: Equipamento) {
-        this.equipamento = {...equipamento};
-        this.equipamentoDialogo = true;
+    editaControle(controle:Controle) {
+        this.controle = {...controle};
+        this.controleDialogo = true;
         
     }
 
     esconderDialogo(){
 
-        this.equipamentoDialogo = false;
+        this.controleDialogo = false;
         this.submitted = false;
     }
 
 
-    findIndexById(id: string): number {
-        let index = -1;
-        for (let i = 0; i < this.equipamentos.length; i++) {
-            if (this.equipamentos[i].id_equipamento === id) {
-                index = i;
-                break;
-            }
-        }
-
-        return index;
-    }
-
-    createId(): string {
-        let id = '';
-        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for ( var i = 0; i < 5; i++ ) {
-            id += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return id;
-    }
-
+ 
 
 }

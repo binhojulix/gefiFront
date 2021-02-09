@@ -29,6 +29,14 @@ export class ControleService {
       );
   }
 
+  getControlesDoUsuario(): Observable<Controle[]> {
+    return this.http.get<Controle[]>(apiUrl)
+      .pipe(
+        tap(controles => console.log('leu os Controles')),
+        catchError(this.handleError('getControles', []))
+      );
+  }
+
   getControle(id: number): Observable<Controle> {
     const url = `${apiUrl}/${id}`;
     return this.http.get<Controle>(url).pipe(
@@ -45,10 +53,10 @@ export class ControleService {
     );
   }
 
-  updateControle(id, Controle): Observable<any> {
-    const url = `${apiUrl}/${id}`;
-    return this.http.put(url, Controle, httpOptions).pipe(
-      tap(_ => console.log(`atualiza o Controle com id=${id}`)),
+  updateControle(controle:Controle): Observable<any> {
+    const url = `${apiUrl}/${controle.id_usuario_equipamento}`;
+    return this.http.put(url, controle, httpOptions).pipe(
+      tap(_ => console.log(`atualiza o Controle com id=${controle.id_usuario_equipamento}`)),
       catchError(this.handleError<any>('updateControle'))
     );
   }

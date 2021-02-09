@@ -7,5 +7,6 @@ export interface Controle {
     usuario?:Usuario;
     equipamento?:Equipamento;
     status?:string;
+    pendencia?:string;
 
 }
