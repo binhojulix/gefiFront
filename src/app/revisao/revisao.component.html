@@ -2,15 +2,8 @@
 
 <div class="card">
     <p-toolbar styleClass="p-mb-4">
-        <ng-template pTemplate="left">
-            <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="abrirNovo()"></button>
-            <button pButton pRipple label="Deletar" icon="pi pi-trash" class="p-button-danger" (click)="deletarEquipamentosSelecionados()" [disabled]="!equipamentosSelecionados || !equipamentosSelecionados.length" *ngIf="currentUser.privilegio === 'ADMIN'"></button>
-        </ng-template>
+   
 
-        <ng-template pTemplate="right">
-          
-            <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help"></button>
-        </ng-template>
     </p-toolbar>
 
     <p-table #dt [value]="equipamentos" [rows]="10" [paginator]="true" [globalFilterFields]="['descricao','fabricante','modelo','codigoCPTM']"
@@ -27,15 +20,12 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th style="width: 3rem" *ngIf="currentUser.privilegio === 'ADMIN'">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
+        
                 <th pSortableColumn="descricao">Descricao <p-sortIcon field="descricao"></p-sortIcon></th>
                 <th pSortableColumn="modelo">Modelo <p-sortIcon field="modelo"></p-sortIcon></th>
                 <th pSortableColumn="fabricante">Fabricante <p-sortIcon field="fabricante"></p-sortIcon></th>
                 <th pSortableColumn="codigoCPTM">CodigoCPTM <p-sortIcon field="codigoCPTM"></p-sortIcon></th>
-              
-                <th *ngIf="currentUser.privilegio === 'ADMIN'"></th>
+                <th></th>
             
            
             </tr>
@@ -43,21 +33,18 @@
 
         <ng-template pTemplate="body" let-equipamento>
             <tr>
-                <td *ngIf="currentUser.privilegio === 'ADMIN'"> 
-                    <p-tableCheckbox [value]="equipamento"></p-tableCheckbox>
-                </td>
+               
                 <td>{{equipamento.descricao_equipamento}}</td>
                 <td>{{equipamento.modelo}}</td>
                 <td>{{equipamento.fabricante}}</td>
-                <td>{{equipamento.codigo_cptm}}</td>
-                            
-               
-                <div *ngIf="currentUser.privilegio === 'ADMIN'">
-                    <td>
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editaEquipamento(equipamento)"></button>
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletaEquipamento(equipamento)"></button>
-                    </td>
-                </div>
+                <td>{{equipamento.codigo_cptm}}</td>  
+                <td>
+                    <button pButton pRipple icon="pi pi-cog" class="p-button-rounded p-button-success p-mr-2" (click)="editaEquipamento(equipamento)"></button>
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-warning" (click)="validaEquipamento(equipamento)"
+                    *ngIf="currentUser.privilegio === 'ADMIN'"></button>
+                  
+                </td>
+            
            
                
             </tr>
@@ -76,45 +63,30 @@
 
         <div class="p-field">
             <label for="descricao">Descricao</label>
-            <input type="text" pInputText id="descricao" [(ngModel)]="equipamento.descricao_equipamento" required autofocus />
+            <input type="text" pInputText id="descricao" [(ngModel)]="equipamento.descricao_equipamento" required autofocus disabled=true />
             <small class="p-invalid" *ngIf="submitted && !equipamento.descricao_equipamento">Descricao is required.</small>
         </div>
 
         <div class="p-field">
+            <label for="codigoCPTM">Código CPTM</label>
+            <input type="text" pInputText id="codigoCPTM" [(ngModel)]="equipamento.codigo_cptm" required autofocus disabled=true/>
+            <small class="p-invalid" *ngIf="submitted && !equipamento.codigo_cptm">Código CPTM is required.</small>
+        </div>
+
+        
+        <div class="p-field">
             <label for="fabricante">Fabricante</label>
-            <input type="text" pInputText id="fabricante" [(ngModel)]="equipamento.fabricante" required autofocus />
+            <textarea pInputTextarea id="fabricante" [(ngModel)]="equipamento.fabricante" required autofocus></textarea>
+    
             <small class="p-invalid" *ngIf="submitted && !equipamento.fabricante">Fabricante is required.</small>
         </div>
     
 
-        <div class="p-field">
-            <label for="modelo">Modelo</label>
-            <input type="text" pInputText id="modelo" [(ngModel)]="equipamento.modelo" required autofocus />
-            <small class="p-invalid" *ngIf="submitted && !equipamento.modelo">Modelo is required.</small>
-        </div>
+    
     
 
-        <div class="p-field">
-            <label for="codigoCPTM">Código CPTM</label>
-            <input type="text" pInputText id="codigoCPTM" [(ngModel)]="equipamento.codigo_cptm" required autofocus />
-            <small class="p-invalid" *ngIf="submitted && !equipamento.codigo_cptm">Código CPTM is required.</small>
-        </div>
-
-        <div class="p-field">
-           
-        <div class="p-field-radiobutton">
-            <p-radioButton name="coletivo" value="1" [(ngModel)]="equipamento.coletivo" inputId="coletivo"></p-radioButton>
-            <label for="coletivo">Coletivo</label>
-        </div>
-
-        <div class="p-field-radiobutton">
-            <p-radioButton name="individual" value="0" [(ngModel)]="equipamento.coletivo" inputId="individual"></p-radioButton>
-            <label for="individual">Individual</label>
-        </div>
       
-
-        </div>
-    
+      
         
     
     </ng-template>

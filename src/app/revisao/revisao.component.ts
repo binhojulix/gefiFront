@@ -1,5 +1,5 @@
-import { Usuario } from './../models/usuario';
-import { AutenticadorService } from './../service/autenticador.service';
+import { Usuario } from '../models/usuario';
+import { AutenticadorService } from '../service/autenticador.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { Equipamento } from '../models/equipamento';
 import { EquipamentoService } from '../service/equipamento.service';
@@ -8,11 +8,11 @@ import { MessageService } from 'primeng/api';
 
 
 @Component({
-  selector: 'app-falha-equipamento',
-  templateUrl: './falha-equipamento.component.html',
-  styleUrls: ['./falha-equipamento.component.css']
+  selector: 'app-revisao',
+  templateUrl: './revisao.component.html',
+  styleUrls: ['./revisao.component.css']
 })
-export class FalhaEquipamentoComponent implements OnInit {
+export class RevisaoComponent implements OnInit {
 
     equipamentoDialogo: boolean;
 
@@ -71,7 +71,7 @@ export class FalhaEquipamentoComponent implements OnInit {
             accept: () => {
 
                 this.equipamentosSelecionados.forEach((eqpt)=>{
-                    const id = eqpt.id_equipamento;
+                    const id = eqpt.id;
                     this.equipamentoService.deleteEquipamento(id)
                     .subscribe(
                         response => {
@@ -95,10 +95,10 @@ export class FalhaEquipamentoComponent implements OnInit {
 
         this.submitted = true;
 
-        if (this.equipamento.descricao_equipamento.trim()) {
-            if (this.equipamento.id_equipamento) {
+        if (this.equipamento.descricao.trim()) {
+            if (this.equipamento.id) {
 
-                this.equipamentoService.updateEquipamento(this.equipamento.id_equipamento, this.equipamento)
+                this.equipamentoService.updateEquipamento(this.equipamento)
                 .subscribe(
                     response => {
                     console.log(response);
@@ -108,7 +108,7 @@ export class FalhaEquipamentoComponent implements OnInit {
                     console.log(error);
                     });
 
-                this.equipamentos[this.findIndexById(this.equipamento.id_equipamento)] = this.equipamento;                
+                this.equipamentos[this.findIndexById(this.equipamento.id)] = this.equipamento;                
                 this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento atualizado', life: 3000});
             }
             else {
@@ -123,7 +123,7 @@ export class FalhaEquipamentoComponent implements OnInit {
                     console.log(error);
                     });
                     
-                this.equipamento.id_equipamento = this.createId();
+      
                 this.equipamentos.push(this.equipamento);
                 this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equpamento salvo', life: 3000});
             }
@@ -136,13 +136,13 @@ export class FalhaEquipamentoComponent implements OnInit {
     }
 
 
-    deletaEquipamento(equipamento: Equipamento){
-        const id = equipamento.id_equipamento;
+    validaEquipamento(equipamento: Equipamento){
+        const id = equipamento.id;
 
         this.confirmationService.confirm({
-            message: 'Tem certeza que quer deletar o equipamento ' + equipamento.descricao_equipamento + '?',
+            message: 'Confirma tratamento da indisponibilidade do equipamento ' + equipamento.descricao + '?',
             header: 'Confirmar',
-            icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-check',
             acceptLabel:'Sim',
             rejectLabel:'Não',
 
@@ -153,8 +153,8 @@ export class FalhaEquipamentoComponent implements OnInit {
                 .subscribe(
                     response => {
                         console.log(response);
-                        this.equipamentos = this.equipamentos.filter(val =>  val.id_equipamento
-                             !== equipamento.id_equipamento);
+                        this.equipamentos = this.equipamentos.filter(val =>  val.id
+                             !== equipamento.id);
                         this.equipamento = {};
                         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento deletado', life: 3000});
                     },
@@ -180,10 +180,10 @@ export class FalhaEquipamentoComponent implements OnInit {
     }
 
 
-    findIndexById(id: string): number {
+    findIndexById(id: Number): number {
         let index = -1;
         for (let i = 0; i < this.equipamentos.length; i++) {
-            if (this.equipamentos[i].id_equipamento === id) {
+            if (this.equipamentos[i].id === id) {
                 index = i;
                 break;
             }
@@ -192,14 +192,7 @@ export class FalhaEquipamentoComponent implements OnInit {
         return index;
     }
 
-    createId(): string {
-        let id = '';
-        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for ( var i = 0; i < 5; i++ ) {
-            id += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return id;
-    }
+
 
 
 }

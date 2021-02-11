@@ -1,5 +1,5 @@
 import { Usuario } from './../models/usuario';
-import { Departamento } from './../models/departamento';
+import { Area } from '../models/area';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
@@ -29,16 +29,6 @@ export class UserService {
       );
   }
 
-  getDepartamentos(): Observable<Departamento[]> {
-    const api =  `${environment.apiUrl}/departamentos`;
-    return this.http.get<Departamento[]>(api)
-      .pipe(
-        tap(departamentos => console.log('leu os Departamentos')),
-        catchError(this.handleError('getDepartamentos', []))
-      );
-  }
-
-
 
   getUsuario(id: number): Observable<Usuario> {
     const url = `${apiUrl}/${id}`;
@@ -51,7 +41,7 @@ export class UserService {
   addUsuario (usuario): Observable<Usuario> {
     return this.http.post<Usuario>(apiUrl, usuario, httpOptions).pipe(
       // tslint:disable-next-line:no-shadowed-variable
-      tap((usuario: Usuario) => console.log(`adicionou o usuario com w/ id=${usuario.id_usuario}`)),
+      tap((usuario: Usuario) => console.log(`adicionou o usuario com w/ id=${usuario.id}`)),
       catchError(this.handleError<Usuario>('addUsuario'))
     );
   }

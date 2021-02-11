@@ -18,7 +18,7 @@ export class EquipamentoService {
 
   constructor(private http: HttpClient) { }
 
-  
+  //lista equipamentos
   getEquipamentos(): Observable<Equipamento[]> {
     console.log(apiUrl);
     return this.http.get<Equipamento[]>(apiUrl)
@@ -28,6 +28,7 @@ export class EquipamentoService {
       );
   }
 
+  //lista equipamentos nao associados
   getEquipamentosNaoAssociados(): Observable<Equipamento[]> {
     const apiUrl = `${environment.apiUrl}/equipamentosnaoassociados`;
     return this.http.get<Equipamento[]>(apiUrl)
@@ -37,6 +38,7 @@ export class EquipamentoService {
       );
   }
 
+  //busca equipamento por id
   getEquipamento(id: number): Observable<Equipamento> {
     const url = `${apiUrl}/${id}`;
     return this.http.get<Equipamento>(url).pipe(
@@ -45,25 +47,27 @@ export class EquipamentoService {
     );
   }
 
+  //adiciona equipamento
   addEquipamento (equipamento): Observable<Equipamento> {
     return this.http.post<Equipamento>(apiUrl, equipamento, httpOptions).pipe(
       // tslint:disable-next-line:no-shadowed-variable
-      tap((equipamento: Equipamento) => console.log(`adicionou o produto com w/ id=${equipamento.id_equipamento}`)),
+      tap((equipamento: Equipamento) => console.log(`adicionou o produto com w/ id=${equipamento.id}`)),
       catchError(this.handleError<Equipamento>('addEquipamento'))
     );
   }
 
-  updateEquipamento(id, equipamento): Observable<any> {
-
+  //atualiza equipamento
+  updateEquipamento(equipamento): Observable<any> {
     return this.http.patch<Equipamento>(apiUrl, equipamento, httpOptions).pipe(
-      tap((equipamento: Equipamento) => console.log(`atualiza o equipamento com id=${equipamento.id_equipamento}`)),
+      tap((equipamento: Equipamento) => console.log(`atualiza o equipamento com id=${equipamento.id}`)),
       catchError(this.handleError<any>('updateEquipamento'))
     );
   }
 
+
+  //deleta equipamento
   deleteEquipamento (id): Observable<Equipamento> {
     const url = `${apiUrl}/${id}`;
-
     return this.http.delete<Equipamento>(url, httpOptions).pipe(
       tap(_ => console.log(`remove equipamento com id=${id}`)),
       catchError(this.handleError<Equipamento>('deleteEquipamento'))

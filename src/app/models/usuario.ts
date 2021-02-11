@@ -1,12 +1,15 @@
+import {Area } from "./area";
+import { Role } from "./role";
+
 export interface Usuario {
-    id_usuario?:string;
+    id?:Number;
     nome?:string;
     login?:string;
     matricula?:string;
     senha?:string;
-    privilegio?:string;
     authdata?:string;
     token?:string;
-    departamento_fk?:number;
+    area?:Area;
+    role?:Role;
 
 }

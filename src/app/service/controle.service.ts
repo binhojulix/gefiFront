@@ -10,7 +10,7 @@ const httpOptions = {
 };
 
 
-const apiUrl = `${environment.apiUrl}/associacoes`;
+const apiUrl = `${environment.apiUrl}/controles`;
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class ControleService {
   
   constructor(private http: HttpClient) { }
 
-  
+  //lista todos os controles
   getControles(): Observable<Controle[]> {
     return this.http.get<Controle[]>(apiUrl)
       .pipe(
@@ -29,6 +29,7 @@ export class ControleService {
       );
   }
 
+  //busca controle por id
   getControle(id: number): Observable<Controle> {
     const url = `${apiUrl}/${id}`;
     return this.http.get<Controle>(url).pipe(
@@ -37,25 +38,27 @@ export class ControleService {
     );
   }
 
-  addControle (Controle): Observable<Controle> {
-    return this.http.post<Controle>(apiUrl, Controle, httpOptions).pipe(
+  //adiciona um novo controle
+  addControle (controle): Observable<Controle> {
+    return this.http.post<Controle>(apiUrl, controle, httpOptions).pipe(
       // tslint:disable-next-line:no-shadowed-variable
-      tap((Controle: Controle) => console.log(`adicionou o produto com w/ id=${Controle.id_usuario_equipamento}`)),
+      tap((controle: Controle) => console.log(`adicionou o produto com w/ id=${controle.id}`)),
       catchError(this.handleError<Controle>('addControle'))
     );
   }
 
-  updateControle(id, Controle): Observable<any> {
-    const url = `${apiUrl}/${id}`;
-    return this.http.put(url, Controle, httpOptions).pipe(
-      tap(_ => console.log(`atualiza o Controle com id=${id}`)),
+  //atualiza um controle
+  updateControle(controle): Observable<any> {
+    const url = `${apiUrl}/${controle.id}`;
+    return this.http.put(url, controle, httpOptions).pipe(
+      tap(_ => console.log(`atualiza o Controle com id=${controle.id}`)),
       catchError(this.handleError<any>('updateControle'))
     );
   }
 
+  //deleta controle
   deleteControle (id): Observable<Controle> {
     const url = `${apiUrl}/delete/${id}`;
-
     return this.http.delete<Controle>(url, httpOptions).pipe(
       tap(_ => console.log(`remove o usuario com id=${id}`)),
       catchError(this.handleError<Controle>('deleteControle'))
@@ -64,9 +67,7 @@ export class ControleService {
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
       console.error(error);
-
       return of(result as T);
     };
   }

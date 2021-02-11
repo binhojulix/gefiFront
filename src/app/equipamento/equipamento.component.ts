@@ -70,7 +70,7 @@ export class EquipamentoComponent implements OnInit {
             accept: () => {
 
                 this.equipamentosSelecionados.forEach((eqpt)=>{
-                    const id = eqpt.id_equipamento;
+                    const id = eqpt.id;
                     this.equipamentoService.deleteEquipamento(id)
                     .subscribe(
                         response => {
@@ -94,10 +94,10 @@ export class EquipamentoComponent implements OnInit {
 
         this.submitted = true;
 
-        if (this.equipamento.descricao_equipamento.trim()) {
-            if (this.equipamento.id_equipamento) {
+        if (this.equipamento.descricao.trim()) {
+            if (this.equipamento.id) {
 
-                this.equipamentoService.updateEquipamento(this.equipamento.id_equipamento, this.equipamento)
+                this.equipamentoService.updateEquipamento(this.equipamento)
                 .subscribe(
                     response => {
                     console.log(response);
@@ -107,7 +107,7 @@ export class EquipamentoComponent implements OnInit {
                     console.log(error);
                     });
 
-                this.equipamentos[this.findIndexById(this.equipamento.id_equipamento)] = this.equipamento;                
+                this.equipamentos[this.findIndexById(this.equipamento.id)] = this.equipamento;                
                 this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento atualizado', life: 3000});
             }
             else {
@@ -122,7 +122,7 @@ export class EquipamentoComponent implements OnInit {
                     console.log(error);
                     });
                     
-                this.equipamento.id_equipamento = this.createId();
+            
                 this.equipamentos.push(this.equipamento);
                 this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equpamento salvo', life: 3000});
             }
@@ -136,10 +136,10 @@ export class EquipamentoComponent implements OnInit {
 
 
     deletaEquipamento(equipamento: Equipamento){
-        const id = equipamento.id_equipamento;
+        const id = equipamento.id;
 
         this.confirmationService.confirm({
-            message: 'Tem certeza que quer deletar o equipamento ' + equipamento.descricao_equipamento + '?',
+            message: 'Tem certeza que quer deletar o equipamento ' + equipamento.descricao + '?',
             header: 'Confirmar',
             icon: 'pi pi-exclamation-triangle',
             acceptLabel:'Sim',
@@ -152,8 +152,8 @@ export class EquipamentoComponent implements OnInit {
                 .subscribe(
                     response => {
                         console.log(response);
-                        this.equipamentos = this.equipamentos.filter(val =>  val.id_equipamento
-                             !== equipamento.id_equipamento);
+                        this.equipamentos = this.equipamentos.filter(val =>  val.id
+                             !== equipamento.id);
                         this.equipamento = {};
                         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento deletado', life: 3000});
                     },
@@ -178,11 +178,11 @@ export class EquipamentoComponent implements OnInit {
         this.submitted = false;
     }
 
-
-    findIndexById(id: string): number {
+ 
+    findIndexById(id: Number): number {
         let index = -1;
         for (let i = 0; i < this.equipamentos.length; i++) {
-            if (this.equipamentos[i].id_equipamento === id) {
+            if (this.equipamentos[i].id === id) {
                 index = i;
                 break;
             }
@@ -191,14 +191,7 @@ export class EquipamentoComponent implements OnInit {
         return index;
     }
 
-    createId(): string {
-        let id = '';
-        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for ( var i = 0; i < 5; i++ ) {
-            id += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return id;
-    }
+  
 
 
 }

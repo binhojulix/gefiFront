@@ -4,11 +4,13 @@ import { NgModule, APP_INITIALIZER  } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
-import { EquipamentoComponent } from './equipamento/equipamento.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { ControleComponent } from './controle/controle.component';
+import { AssociacaoComponent } from './associacao/associacao.component';
+import { RevisaoComponent } from './revisao/revisao.component';
+import { EquipamentoComponent } from './equipamento/equipamento.component';
 import { AppPrimefacesModule } from './app-primefaces.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -16,12 +18,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EquipamentoService } from './service/equipamento.service';
 import { UserService } from './service/user.service';
 import { ControleService } from './service/controle.service';
+import { RevisaoService } from './service/revisao.service';
+import { AssociacaoService} from './service/associacao.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ErrorInterceptor } from '../app/helpers/error.interceptor';
 import { JwtInterceptor } from '../app/helpers/jwt.interceptor';
 import {appInitializer} from '../app/helpers/app.initializer';
-import { FalhaEquipamentoComponent } from './falha-equipamento/falha-equipamento.component';
-import { TransferirEquipamentoComponent } from './transferir-equipamento/transferir-equipamento.component';
+
 
 @NgModule({
   declarations: [
@@ -32,8 +35,8 @@ import { TransferirEquipamentoComponent } from './transferir-equipamento/transfe
     LoginComponent,
     UsuarioComponent,
     ControleComponent,
-    FalhaEquipamentoComponent,
-    TransferirEquipamentoComponent
+    AssociacaoComponent,
+    RevisaoComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,7 @@ import { TransferirEquipamentoComponent } from './transferir-equipamento/transfe
     ReactiveFormsModule,
   ],
   providers: [
-     EquipamentoService,ControleService,UserService,
+     EquipamentoService,ControleService,UserService, AssociacaoService, RevisaoService,
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AutenticadorService] },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

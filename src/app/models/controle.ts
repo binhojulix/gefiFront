@@ -1,11 +1,13 @@
-import { Departamento } from "./departamento";
+import { Area } from "./area";
 import { Equipamento } from "./equipamento";
 import { Usuario } from "./usuario";
 
 export interface Controle {
-    id_usuario_equipamento?:Number;
+    id?:Number;
     usuario?:Usuario;
     equipamento?:Equipamento;
     status?:string;
+    dataSolicitacao?:Date;
+    dataDevolucao?:Date;
 
 }

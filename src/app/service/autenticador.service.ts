@@ -11,7 +11,7 @@ const httpOptions = {
 };
 
 const apiUrl = `${environment.apiUrl}/autenticar`;
-//const apiUrl = 'http://localhost:8083/autenticar';
+
   
 
 @Injectable({

@@ -14,7 +14,7 @@ export class AuthGuard {
         if (currentUser) {
             // logged in so return true
 
-            if (route.data.roles && route.data.roles.indexOf(currentUser.privilegio) === -1) {
+            if (route.data.roles && route.data.roles.indexOf(currentUser.role) === -1) {
                 // role not authorised so redirect to home page
                 this.router.navigate(['/']);
                 return false;

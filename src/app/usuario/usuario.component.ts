@@ -1,7 +1,8 @@
-import { Departamento } from './../models/departamento';
+import { Area } from '../models/area';
 import { Component, OnInit, Input } from '@angular/core';
 import { Usuario } from '../models/usuario';
 import { UserService } from '../service/user.service';
+import { AreaService } from '../service/area.service';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import {SelectItem} from 'primeng/api';
@@ -20,8 +21,8 @@ export class UsuarioComponent implements OnInit {
 
     usuarioDialogo: boolean;
 
-    departamentos: Departamento[];
-    departamentoSelecionado: Departamento;
+    Areas: Area[];
+    AreaSelecionado: Area;
  
 
     usuarios: Usuario[];
@@ -33,6 +34,7 @@ export class UsuarioComponent implements OnInit {
 
 
     constructor(private usuarioService: UserService, 
+        private areaService: AreaService, 
         private messageService: MessageService, 
         private confirmationService: ConfirmationService) {
 
@@ -41,18 +43,15 @@ export class UsuarioComponent implements OnInit {
 
     ngOnInit() {
         this.listarUsuarios();
-     
-      
-     
     }
 
 
-    listarDepartamentos(){
+    listarAreas(){
         
-        this.usuarioService.getDepartamentos()
+        this.areaService.getAreas()
             .subscribe(
                 data => {
-                    this.departamentos = data;
+                    this.Areas = data;
                 },
                 error => {
                     console.log(error);
@@ -69,7 +68,6 @@ export class UsuarioComponent implements OnInit {
             .subscribe(
             data => {
                 this.usuarios = data;
-                console.log(data);
             },
             error => {
                 console.log(error);
@@ -85,8 +83,8 @@ export class UsuarioComponent implements OnInit {
         this.usuario = {};
         this.submitted = false;
         this.usuarioDialogo = true;
-        this.departamentoSelecionado={};
-        this.listarDepartamentos();
+        this.AreaSelecionado={};
+        this.listarAreas();
 
        
     }
@@ -111,30 +109,29 @@ export class UsuarioComponent implements OnInit {
         
 
         if (this.usuario.nome.trim()) {
-            this.usuario.departamento_fk = this.departamentoSelecionado.id_departamento;
+            this.usuario.area = this.AreaSelecionado;
         
-            if (this.usuario.id_usuario) {
-                this.usuarioService.updateUsuario(this.usuario.id_usuario, this.usuario)
+            if (this.usuario.id) {
+                this.usuarioService.updateUsuario(this.usuario.id, this.usuario)
                 .subscribe(
                     response => {
-                    console.log(response);
                     this.submitted = true;
                     },
                     error => {
                     console.log(error);
                     });
-                this.usuarios[this.findIndexById(this.usuario.id_usuario)] = this.usuario;
+                this.usuarios[this.findIndexById(this.usuario.id)] = this.usuario;
                 this.messageService.add({severity:'success', summary: 'Successful', detail: 'usuario atualizado', life: 3000});
             }
             else {
                 this.usuarioService.addUsuario(this.usuario)
                 .subscribe(
                     response => {
-                    console.log(response);
-                    this.submitted = true;
+                        console.log(response);
+                        this.submitted = true;
                     },
                     error => {
-                    console.log(error);
+                        console.log(error);
                     });
                 this.usuarios.push(this.usuario);
                 this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equpamento salvo', life: 3000});
@@ -145,19 +142,16 @@ export class UsuarioComponent implements OnInit {
             this.usuario = {};
         }
 
-       // const setor:Setor={};
-       // setor.usuario_fk
-
-        //this.usuarioService.addSetor(setor);
+       
     }
 
 
     deletaUsuario(usuario: Usuario){
 
-        const id = usuario.id_usuario;
+        const id = usuario.id;
 
         this.confirmationService.confirm({
-            message: 'Tem certeza que quer deletar o usuário ' + usuario.id_usuario+ '?',
+            message: 'Tem certeza que quer deletar o usuário ' + usuario.id + '?',
             header: 'Confirmar',
             icon: 'pi pi-exclamation-triangle',
             acceptLabel:'Sim',
@@ -170,7 +164,7 @@ export class UsuarioComponent implements OnInit {
                 .subscribe(
                     response => {
                         console.log(response);
-                        this.usuarios = this.usuarios.filter(val =>  val.id_usuario !== usuario.id_usuario);
+                        this.usuarios = this.usuarios.filter(val =>  val.id !== usuario.id);
                         this.usuario = {};
                         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Usuário deletado', life: 3000});
                     },
@@ -197,10 +191,10 @@ export class UsuarioComponent implements OnInit {
     }
 
 
-    findIndexById(id: string): number {
+    findIndexById(id: Number): number {
         let index = -1;
         for (let i = 0; i < this.usuarios.length; i++) {
-            if (this.usuarios[i].id_usuario === id) {
+            if (this.usuarios[i].id === id) {
                 index = i;
                 break;
             }
