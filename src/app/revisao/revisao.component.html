@@ -1,6 +1,7 @@
 <p-toast></p-toast>
 
 <div class="card">
+<<<<<<< HEAD:src/app/revisao/revisao.component.html
     <p-toolbar styleClass="p-mb-4">
    
 
@@ -8,17 +9,25 @@
 
     <p-table #dt [value]="equipamentos" [rows]="10" [paginator]="true" [globalFilterFields]="['descricao','fabricante','modelo','codigoCPTM']"
         [(selection)]="equipamentosSelecionados" [rowHover]="true" dataKey="id"
+=======
+   
+    <p-table #dt [value]="controles" [rows]="10" [paginator]="true" 
+    [globalFilterFields]="['usuario.nome','equipamento.descricao_equipamento']"
+        [(selection)]="controlesSelecionado" [rowHover]="true" dataKey="id"
+>>>>>>> 8c3d6f9565149ead68b9c7bf08a9ef63359915b9:src/app/falha-equipamento/falha-equipamento.component.html
         currentPageReportTemplate="Mostrando {first} de {last} do total de  {totalRecords} ítens" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="p-d-flex p-ai-center p-jc-between">
-                <h5 class="p-m-0">Gerenciamento de Equipamentos</h5>
+                <h5 class="p-m-0">Controle de Ferramentas</h5>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Pesquisar..." />
                 </span>
             </div>
         </ng-template>
+
         <ng-template pTemplate="header">
+<<<<<<< HEAD:src/app/revisao/revisao.component.html
             <tr>
         
                 <th pSortableColumn="descricao">Descricao <p-sortIcon field="descricao"></p-sortIcon></th>
@@ -29,10 +38,21 @@
             
            
             </tr>
+=======
+           <tr>
+            <th pSortableColumn="Solicitante">Solicitante <p-sortIcon field="controle.usuario.nome"></p-sortIcon></th>
+            <th pSortableColumn="descricao">Descricao <p-sortIcon field="controle.equipamento.descricao_equipamento"></p-sortIcon></th>
+            <th pSortableColumn="modelo">Modelo <p-sortIcon field="controle.equipamento.modelo"></p-sortIcon></th>
+            <th pSortableColumn="fabricante">Fabricante <p-sortIcon field="controle.equipamento.fabricante"></p-sortIcon></th>
+            <th pSortableColumn="codigoCPTM">CodigoCPTM <p-sortIcon field="controle.equipamento.codigo_cptm"></p-sortIcon></th>
+            <th pSortableColumn="status">Status<p-sortIcon field="status"></p-sortIcon></th>
+          </tr>
+>>>>>>> 8c3d6f9565149ead68b9c7bf08a9ef63359915b9:src/app/falha-equipamento/falha-equipamento.component.html
         </ng-template>
 
-        <ng-template pTemplate="body" let-equipamento>
+        <ng-template pTemplate="body" let-controle>
             <tr>
+<<<<<<< HEAD:src/app/revisao/revisao.component.html
                
                 <td>{{equipamento.descricao_equipamento}}</td>
                 <td>{{equipamento.modelo}}</td>
@@ -45,24 +65,49 @@
                   
                 </td>
             
+=======
+                <td>{{controle.usuario.nome}}</td>
+>>>>>>> 8c3d6f9565149ead68b9c7bf08a9ef63359915b9:src/app/falha-equipamento/falha-equipamento.component.html
            
-               
+                <td>{{controle.equipamento.descricao_equipamento}}</td>
+        
+                <td>{{controle.equipamento.modelo}}</td>
+       
+          
+                <td>{{controle.equipamento.codigo_cptm}}</td>
+                <td>{{controle.status}}</td>
+                <td>
+        
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editaControle(controle)"></button>
+                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-warning" (click)="validaFalhaDoEquipamento(controle)"></button>
+    
+    
+                    
+                </td>
             </tr>
         </ng-template>
 
         <ng-template pTemplate="summary">
             <div class="p-d-flex p-ai-center p-jc-between">
-                Total:  {{equipamentos ? equipamentos.length : 0 }} equipamentos
+                Total:  {{controles ? controles.length : 0 }} controles
             </div>
         </ng-template>
+
     </p-table>
 </div>
 
-<p-dialog [(visible)]="equipamentoDialogo" [style]="{width: '450px'}" header="Equipamento Detalhe" [modal]="true" styleClass="p-fluid">
+
+
+
+
+
+
+<p-dialog [(visible)]="controleDialogo" [style]="{width: '450px'}" header="Pendencia do equipamento" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
 
         <div class="p-field">
             <label for="descricao">Descricao</label>
+<<<<<<< HEAD:src/app/revisao/revisao.component.html
             <input type="text" pInputText id="descricao" [(ngModel)]="equipamento.descricao_equipamento" required autofocus disabled=true />
             <small class="p-invalid" *ngIf="submitted && !equipamento.descricao_equipamento">Descricao is required.</small>
         </div>
@@ -82,6 +127,29 @@
         </div>
     
 
+=======
+            <input type="text" pInputText id="descricao" [(ngModel)]="controle.equipamento.descricao_equipamento" disabled=true />
+         
+        </div>
+
+        <div class="p-field">
+            <label for="responsavel">Nome do responsável pelo equipamento</label>
+            <input type="text" pInputText id="responsavel" [(ngModel)]="controle.usuario.nome" disabled=true />
+         
+        </div>
+    
+
+        <div class="p-field">
+            <label for="modelo">Descrição da pendencia</label>
+            <textarea pInputTextarea id="modelo" [(ngModel)]="controle.status" required autofocus ></textarea>
+            <small class="p-invalid" *ngIf="submitted && !controle.equipamento.modelo">Status is required.</small>
+        </div>
+    
+
+  
+
+ 
+>>>>>>> 8c3d6f9565149ead68b9c7bf08a9ef63359915b9:src/app/falha-equipamento/falha-equipamento.component.html
     
     
 
@@ -93,7 +161,7 @@
     
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="esconderDialogo()"></button>
-        <button pButton pRipple label="Savar" icon="pi pi-check" class="p-button-text" (click)="salvarEquipamento()"></button>
+        <button pButton pRipple label="Savar" icon="pi pi-check" class="p-button-text" (click)="atualizaControle()"></button>
     </ng-template>
 
 </p-dialog>

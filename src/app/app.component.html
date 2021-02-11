@@ -5,8 +5,13 @@
         <a class="nav-item nav-link" routerLink="/usuario" routerLinkActive="active" *ngIf="currentUser.privilegio === 'ADMIN'">Usuario</a>
         <a class="nav-item nav-link" routerLink="/equipamento" routerLinkActive="active" *ngIf="currentUser.privilegio === 'ADMIN' || currentUser.privilegio === 'GESTOR'">Equipamento</a>
         <a class="nav-item nav-link" routerLink="/controle" routerLinkActive="active">Controle</a>
+<<<<<<< HEAD
         <a class="nav-item nav-link" routerLink="/associcao" routerLinkActive="active">Associacao</a>
         <a class="nav-item nav-link" routerLink="/revisao" routerLinkActive="active">Revisao</a>
+=======
+        <a class="nav-item nav-link" routerLink="/tratar-equipamento" routerLinkActive="active">Tratamento de equipamentos</a>
+        
+>>>>>>> 8c3d6f9565149ead68b9c7bf08a9ef63359915b9
         <a class="nav-item nav-link" (click)="logout()">Logout</a>
     </div>
 </nav>
