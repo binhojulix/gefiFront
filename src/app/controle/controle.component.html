@@ -33,6 +33,7 @@
             <th pSortableColumn="fabricante">Fabricante <p-sortIcon field="controle.equipamento.fabricante"></p-sortIcon></th>
             <th pSortableColumn="codigoCPTM">CodigoCPTM <p-sortIcon field="controle.equipamento.codigo_cptm"></p-sortIcon></th>
             <th pSortableColumn="status">Status<p-sortIcon field="status"></p-sortIcon></th>
+            <th *ngIf="currentUser.role === 'ADMIN'"></th>
           </tr>
         </ng-template>
 
@@ -40,7 +41,7 @@
             <tr>
                 <td>{{controle.usuario.nome}}</td>
            
-                <td>{{controle.equipamento.descricao_equipamento}}</td>
+                <td>{{controle.equipamento.descricao}}</td>
         
                 <td>{{controle.equipamento.modelo}}</td>
        
@@ -48,6 +49,11 @@
           
                 <td>{{controle.equipamento.codigo_cptm}}</td>
                 <td>{{controle.status}}</td>
+                <td *ngIf="currentUser.role === 'ADMIN'"> 
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editaEquipamento(equipamento)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletaEquipamento(equipamento)"></button>
+                </td>
+           
             </tr>
         </ng-template>
 

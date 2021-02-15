@@ -137,4 +137,19 @@ export class ControleComponent implements OnInit {
 
 
 
+
+
+findIndexById(id: Number): number {
+    let index = -1;
+    for (let i = 0; i < this.equipamentos.length; i++) {
+        if (this.equipamentos[i].id === id) {
+            index = i;
+            break;
+        }
+    }
+
+    return index;
+}
+
+
 }
