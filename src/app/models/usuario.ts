@@ -11,5 +11,4 @@ export interface Usuario {
     token?:string;
     area?:Area;
     role?:Role;
-
 }

@@ -7,11 +7,7 @@ export interface Controle {
     usuario?:Usuario;
     equipamento?:Equipamento;
     status?:string;
-<<<<<<< HEAD
     dataSolicitacao?:Date;
     dataDevolucao?:Date;
-=======
-    pendencia?:string;
->>>>>>> 8c3d6f9565149ead68b9c7bf08a9ef63359915b9
 
 }

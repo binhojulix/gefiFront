@@ -13,7 +13,7 @@
         </ng-template>
     </p-toolbar>
 
-    <p-table #dt [value]="equipamentos" [rows]="10" [paginator]="true" [globalFilterFields]="['descricao','fabricante','modelo','codigoCPTM']"
+    <p-table #dt [value]="equipamentos" [rows]="10" [paginator]="true" [globalFilterFields]="['descricao','fabricante','modelo','codigo_cptm']"
         [(selection)]="equipamentosSelecionados" [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Mostrando {first} de {last} do total de  {totalRecords} ítens" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
@@ -27,15 +27,15 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th style="width: 3rem" *ngIf="currentUser.privilegio === 'ADMIN'">
+                <th style="width: 3rem" *ngIf="currentUser.role === 'ADMIN'">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
                 <th pSortableColumn="descricao">Descricao <p-sortIcon field="descricao"></p-sortIcon></th>
                 <th pSortableColumn="modelo">Modelo <p-sortIcon field="modelo"></p-sortIcon></th>
                 <th pSortableColumn="fabricante">Fabricante <p-sortIcon field="fabricante"></p-sortIcon></th>
-                <th pSortableColumn="codigoCPTM">CodigoCPTM <p-sortIcon field="codigoCPTM"></p-sortIcon></th>
+                <th pSortableColumn="codigo_cptm">CodigoCPTM <p-sortIcon field="codigo_cptm"></p-sortIcon></th>
               
-                <th *ngIf="currentUser.privilegio === 'ADMIN'"></th>
+                <th *ngIf="currentUser.role === 'ADMIN'"></th>
             
            
             </tr>
@@ -43,23 +43,19 @@
 
         <ng-template pTemplate="body" let-equipamento>
             <tr>
-                <td *ngIf="currentUser.privilegio === 'ADMIN'"> 
+                <td *ngIf="currentUser.role === 'ADMIN'"> 
                     <p-tableCheckbox [value]="equipamento"></p-tableCheckbox>
                 </td>
                 <td>{{equipamento.descricao}}</td>
                 <td>{{equipamento.modelo}}</td>
                 <td>{{equipamento.fabricante}}</td>
                 <td>{{equipamento.codigo_cptm}}</td>
-                            
-               
-                <div *ngIf="currentUser.privilegio === 'ADMIN'">
-                    <td>
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editaEquipamento(equipamento)"></button>
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletaEquipamento(equipamento)"></button>
-                    </td>
-                </div>
+ 
+                <td *ngIf="currentUser.role === 'ADMIN'"> 
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editaEquipamento(equipamento)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletaEquipamento(equipamento)"></button>
+                </td>
            
-               
             </tr>
         </ng-template>
 
@@ -76,8 +72,8 @@
 
         <div class="p-field">
             <label for="descricao">Descricao</label>
-            <input type="text" pInputText id="descricao" [(ngModel)]="equipamento.descricao_equipamento" required autofocus />
-            <small class="p-invalid" *ngIf="submitted && !equipamento.descricao_equipamento">Descricao is required.</small>
+            <input type="text" pInputText id="descricao" [(ngModel)]="equipamento.descricao" required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !equipamento.descricao">Descricao is required.</small>
         </div>
 
         <div class="p-field">
@@ -100,20 +96,7 @@
             <small class="p-invalid" *ngIf="submitted && !equipamento.codigo_cptm">Código CPTM is required.</small>
         </div>
 
-        <div class="p-field">
-           
-        <div class="p-field-radiobutton">
-            <p-radioButton name="coletivo" value="1" [(ngModel)]="equipamento.coletivo" inputId="coletivo"></p-radioButton>
-            <label for="coletivo">Coletivo</label>
-        </div>
-
-        <div class="p-field-radiobutton">
-            <p-radioButton name="individual" value="0" [(ngModel)]="equipamento.coletivo" inputId="individual"></p-radioButton>
-            <label for="individual">Individual</label>
-        </div>
       
-
-        </div>
     
         
     

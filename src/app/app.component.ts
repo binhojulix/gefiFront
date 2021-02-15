@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { Role } from './models/role';
 import { AutenticadorService } from '../app/service/autenticador.service';
 import { Usuario } from '../app/models/usuario';
 
@@ -20,6 +20,8 @@ export class AppComponent {
   ) {
       this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
       console.log(this.currentUser);
+      console.log("passei por aqui")
+      console.log(Role.Admin)
   }
 
   logout() {
