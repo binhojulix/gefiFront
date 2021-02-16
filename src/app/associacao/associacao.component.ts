@@ -39,8 +39,6 @@ export class AssociacaoComponent implements OnInit {
 
   ngOnInit() {
       this.listarAssociacaos();
-      console.log("total de Associacaos")
-      console.log(this.associacao);
   }
 
   listarAssociacaos(): void {

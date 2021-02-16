@@ -36,8 +36,6 @@ var AssociacaoComponent = /** @class */ (function () {
     }
     AssociacaoComponent.prototype.ngOnInit = function () {
         this.listarAssociacaos();
-        console.log("total de Associacaos");
-        console.log(this.associacao);
     };
     AssociacaoComponent.prototype.listarAssociacaos = function () {
         var _this = this;

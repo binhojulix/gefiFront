@@ -3,6 +3,6 @@ import { Usuario } from "./usuario";
 
 export interface Associacao {
     id:Number;
-    equipamentos: Equipamento;
+    equipamento: Equipamento;
     usuario?:Usuario;
 }
