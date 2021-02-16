@@ -1,13 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Controle } from '../models/controle';
-import { ControleService } from '../service/controle.service';
+import { Associacao } from '../models/associacao';
+import { AssociacaoService } from '../service/associacao.service';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { Usuario } from '../models/usuario';
 import {Equipamento} from '../models/equipamento';
 import { UserService } from '../service/user.service';
 import { EquipamentoService } from '../service/equipamento.service';
-
+import { AutenticadorService } from '../service/autenticador.service';
 
 @Component({
   selector: 'app-associacao',
@@ -15,29 +15,19 @@ import { EquipamentoService } from '../service/equipamento.service';
   styleUrls: ['./associacao.component.css']
 })
 export class AssociacaoComponent implements OnInit {
-  controleDialogoAssociarUsuario: boolean;
 
 
-
+  AssociacaoDialogo: boolean;
   usuarios: Usuario[];
   equipamentos:Equipamento[];
-
   labelEquipamento:String;
-
-
-
-  controles: Controle[];
-
-  controle: Controle;
-
-  controlesSelecionados: Controle[];
-
+  associacoes: Associacao[];
+  associacao: Associacao;
+  associacoesSelecionadas: Associacao[];
   submitted: boolean;
-  selectedCountry: string;
+ 
 
-  countries: any[];
-
-  constructor(private controleService: ControleService,
+  constructor(private associacaoService: AssociacaoService,
     private messageService: MessageService, 
     private usuarioService: UserService,
     private equipamentoService:EquipamentoService,
@@ -48,16 +38,16 @@ export class AssociacaoComponent implements OnInit {
     
 
   ngOnInit() {
-      this.listarControles();
-      console.log("total de controles")
-      console.log(this.controles);
+      this.listarAssociacaos();
+      console.log("total de Associacaos")
+      console.log(this.associacao);
   }
 
-  listarControles(): void {
-    this.controleService.getControles()
+  listarAssociacaos(): void {
+    this.associacaoService.getAssociacoes()
         .subscribe(
         data => {
-            this.controles = data;
+            this.associacoes = data;
             console.log(data);
         },
         error => {
@@ -68,20 +58,17 @@ export class AssociacaoComponent implements OnInit {
 
   abrirNovo(){
         
-    this.controle = {};
+    this.associacao = {};
     this.submitted = false;
-    this.controleDialogoAssociarUsuario = true;
+    this.AssociacaoDialogo = true;
     this.listarUsuarios();
     this.listarEquipamentos();
 
   }
 
   esconderDialogo(){
-
-    this.controleDialogoAssociarUsuario = false;
-
+    this.AssociacaoDialogo = false;
     this.submitted = false;
-
   }
 
   listarUsuarios(){
@@ -113,11 +100,11 @@ export class AssociacaoComponent implements OnInit {
 
 
 
-  salvarControle(){
+  salvarAssociacao(){
     this.submitted = true;
         
 
-      this.controleService.addControle(this.controle)
+      this.associacaoService.addAssociacao(this.associacao)
       .subscribe(
           response => {
           console.log(response);
@@ -126,15 +113,69 @@ export class AssociacaoComponent implements OnInit {
           error => {
           console.log(error);
           });
-        this.controles.push(this.controle);
+        this.associacoes.push(this.associacao);
         this.messageService.add({severity:'success', summary: 'Successful', 
         detail: 'Associacao feita com sucesso', life: 3000});
   
         this.usuarios = [...this.usuarios];
-        this.controleDialogoAssociarUsuario = false;
-        this.controle = {};
+        this.AssociacaoDialogo = false;
+        this.associacao = {};
   }
 
+
+  editaEquipamento(associacao:Associacao) {
+    this.associacao = {...associacao};
+    this.AssociacaoDialogo = true;
+    
+}
+
+
+devolveAssociacao(associacao:Associacao){
+  const id = associacao.id;
+
+  this.confirmationService.confirm({
+      message: 'Solicitar o equipamento ' + associacao.equipamento.descricao + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel:'Sim',
+      rejectLabel:'Não',
+
+      accept: () => {
+        
+
+          this.associacaoService.updateAssociacao(associacao)
+          .subscribe(
+              response => {
+                  console.log(response);
+                  this.associacoes = this.Associacoes.filter(val =>  val.id
+                       !== associacao.id);
+                  this.associacao = {};
+                  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento solicitado', life: 3000});
+              },
+              error => {
+              console.log(error);
+              });
+
+         
+      }
+  });
+}
+
+
+
+
+
+findIndexById(id: Number): number {
+    let index = -1;
+    for (let i = 0; i < this.equipamentos.length; i++) {
+        if (this.equipamentos[i].id === id) {
+            index = i;
+            break;
+        }
+    }
+
+    return index;
+}
 
 
 }

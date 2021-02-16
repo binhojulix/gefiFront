@@ -19,9 +19,6 @@ export class AppComponent {
       private authenticationService: AutenticadorService
   ) {
       this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-      console.log(this.currentUser);
-      console.log("passei por aqui")
-      console.log(Role.Admin)
   }
 
   logout() {
