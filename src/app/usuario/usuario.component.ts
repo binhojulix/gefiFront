@@ -1,4 +1,4 @@
-import { Area } from '../models/area';
+import { Area } from '../models/Area';
 import { Component, OnInit, Input } from '@angular/core';
 import { Usuario } from '../models/usuario';
 import { UserService } from '../service/user.service';

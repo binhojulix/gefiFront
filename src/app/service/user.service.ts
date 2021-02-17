@@ -1,5 +1,5 @@
 import { Usuario } from './../models/usuario';
-import { Area } from '../models/area';
+import { Area } from '../models/Area';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';

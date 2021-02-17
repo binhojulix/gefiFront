@@ -4,7 +4,9 @@
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
             <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="abrirNovo()"></button>
-            <button pButton pRipple label="Deletar" icon="pi pi-trash" class="p-button-danger" (click)="deletarEquipamentosSelecionados()" [disabled]="!equipamentosSelecionados || !equipamentosSelecionados.length" *ngIf="currentUser.privilegio === 'ADMIN'"></button>
+            <button pButton pRipple label="Deletar" icon="pi pi-trash" class="p-button-danger" (click)="deletarEquipamentosSelecionados()"
+             [disabled]="!equipamentosSelecionados || !equipamentosSelecionados.length" *ngIf="currentUser.privilegio === 'ADMIN'"></button>
+             
         </ng-template>
 
         <ng-template pTemplate="right">

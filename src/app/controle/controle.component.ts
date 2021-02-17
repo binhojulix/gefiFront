@@ -16,7 +16,8 @@ import { AutenticadorService } from '../service/autenticador.service';
 })
 export class ControleComponent implements OnInit {
 
-  controleDialogo: boolean;
+  revisaoDialogo: boolean;
+  associacaoDialogo:boolean;
   usuarios: Usuario[];
   equipamentos:Equipamento[];
   labelEquipamento:String;
@@ -43,33 +44,27 @@ export class ControleComponent implements OnInit {
       this.listarControles();
   }
 
-  listarControles(): void {
-    this.controleService.getControles()
-        .subscribe(
-        data => {
-            this.controles = data;
-        },
-        error => {
-            console.log(error);
-        });
-    }
 
-
-  abrirNovo(){
-        
+  novaAssocicaoDeEquipamento(){
     this.controle = {};
     this.submitted = false;
-    this.controleDialogo = true;
+    this.associacaoDialogo = true;
     this.listarUsuarios();
     this.listarEquipamentos();
-
   }
 
-  esconderDialogo(){
-    this.controleDialogo = false;
+
+
+  esconderDialogoRevisao():void{
+    this.revisaoDialogo = false;
     this.submitted = false;
-
   }
+
+  esconderDialogoAssociacao():void{
+    this.associacaoDialogo=false;
+    this.submitted=false;
+  }
+
 
   listarUsuarios(){
     this.usuarioService.getUsuarios()
@@ -83,7 +78,7 @@ export class ControleComponent implements OnInit {
   }
 
   
-  listarEquipamentos(){
+  listarEquipamentos():void{
         
     this.equipamentoService.getEquipamentosNaoAssociados()
         .subscribe(
@@ -95,9 +90,22 @@ export class ControleComponent implements OnInit {
             });
   }
 
+  listarControles(): void {
+    this.controleService.getControles()
+        .subscribe(
+        data => {
+            this.controles = data;
+        },
+        error => {
+            console.log(error);
+        });
+    }
 
 
-  salvarControle(){
+
+
+
+  associaEquipamento(){
     this.submitted = true;
 
       this.controleService.addControle(this.controle)
@@ -114,18 +122,56 @@ export class ControleComponent implements OnInit {
         detail: 'Controle feita com sucesso', life: 3000});
   
         this.usuarios = [...this.usuarios];
-        this.controleDialogo = false;
+        this.revisaoDialogo = false;
         this.controle = {};
   }
 
-  editaEquipamento(controle: Controle) {
-    this.controle = {...controle};
-    this.controleDialogo = true;
-    
+
+
+registraRevisao(controle:Controle){
+  this.controle = {...controle};
+  this.revisaoDialogo = true;
+}  
+
+validaRevisao(controle:Controle){
+  this.controle = {...controle};
+  this.revisaoDialogo = true;
 }
 
 
-devolveControle(controle: Controle){
+devolveEquipamento(controle: Controle){
+  const id = controle.id;
+
+  this.confirmationService.confirm({
+      message: 'Devolver Equipamento o equipamento ' + controle.equipamento.descricao + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel:'Sim',
+      rejectLabel:'Não',
+
+      accept: () => {
+        
+
+          this.controleService.updateControle(controle)
+          .subscribe(
+              response => {
+                  console.log(response);
+                  this.controles = this.controles.filter(val =>  val.id
+                       !== controle.id);
+                  this.controle = {};
+                  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento solicitado', life: 3000});
+              },
+              error => {
+              console.log(error);
+              });
+
+         
+      }
+  });
+}
+
+
+solicitaEquipamento(controle: Controle){
   const id = controle.id;
 
   this.confirmationService.confirm({
@@ -155,9 +201,6 @@ devolveControle(controle: Controle){
       }
   });
 }
-
-
-
 
 
 findIndexById(id: Number): number {

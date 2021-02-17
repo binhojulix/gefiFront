@@ -3,7 +3,8 @@
 <div class="card">
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
-            <button pButton pRipple label="Associar Usuário" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="abrirNovo()"></button>
+            <button pButton pRipple label="Associar Equipamento" 
+            icon="pi pi-plus" class="p-button-success p-mr-2" (click)="novaAssocicaoDeEquipamento()"></button>
        
         </ng-template>
 
@@ -50,8 +51,12 @@
                 <td>{{controle.equipamento.codigo_cptm}}</td>
                 <td>{{controle.status}}</td>
                 <td *ngIf="currentUser.role === 'ADMIN'"> 
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editaEquipamento(equipamento)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletaEquipamento(equipamento)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="registraRevisao(controle)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="validaRevisao(controle)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="devolveEquipamento(controle)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="solicitaEquipamento(controle)"></button>
+
+                 
                 </td>
            
             </tr>
@@ -68,46 +73,53 @@
 
 
 
-<p-dialog [(visible)]="controleDialogo" [style]="{width: '100%'}"
-     header="Associar Usuario" [modal]="true" styleClass="p-fluid" >
+<p-dialog [(visible)]="associacaoDialogo" [style]="{width: '100%'}"
+     header="Associar Equipamento" [modal]="true" styleClass="p-fluid" >
     <ng-template pTemplate="content">
-
         <div class="p-field">
             <label for="nome">Usuarios</label>
             <p-dropdown [options]="usuarios" [(ngModel)]="controle.usuario" 
                 placeholder="Usuário" optionLabel="nome" styleClass="pequena"></p-dropdown>
         </div>
-
         <div class="p-field">
             <label for="nome">Equipamentos</label>
-          
-         
         <p-dropdown [options]="equipamentos" [(ngModel)]="controle.equipamento"
             optionLabel="descricao_equipamento" [filter]="true" filterBy="codigo_cptm"
             [showClear]="true" placeholder="Selecione o Equipamento">
         </p-dropdown>
-
-<br/>   <br/>
-<br/>
-        <br/>
-        <br/>   <br/>
-        <br/>
-                <br/>
-
         </div>
-     
-
-
     </ng-template>
-    
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="esconderDialogo()"></button>
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="esconderDialogoAssociacao()"></button>
         <button pButton pRipple label="Savar" icon="pi pi-check" class="p-button-text" (click)="salvarControle()"></button>
-    </ng-template>
 
+    </ng-template>
 </p-dialog>
 
 
+<p-dialog [(visible)]="revisaoDialogo" [style]="{width: '100%'}"
+     header="Registrar perda/defeito ferramentaEquipamento" [modal]="true" styleClass="p-fluid" >
+    <ng-template pTemplate="content">
+        <div class="p-field">
+            <label for="nome">Usuarios</label>
+            <p-dropdown [options]="usuarios" [(ngModel)]="controle.usuario" 
+                placeholder="Usuário" optionLabel="nome" styleClass="pequena"></p-dropdown>
+        </div>
+        <div class="p-field">
+            <label for="nome">Equipamentos</label>
+        <p-dropdown [options]="equipamentos" [(ngModel)]="controle.equipamento"
+            optionLabel="descricao_equipamento" [filter]="true" filterBy="codigo_cptm"
+            [showClear]="true" placeholder="Selecione o Equipamento">
+        </p-dropdown>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="esconderDialogoRevisao()"></button>
+        <button pButton pRipple label="Savar" icon="pi pi-check" class="p-button-text" (click)="salvarControle()"></button>
+    </ng-template>
+</p-dialog>
 
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 
 

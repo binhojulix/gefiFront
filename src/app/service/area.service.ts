@@ -3,7 +3,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { catchError, tap, map } from 'rxjs/operators';
-import {Area} from '../models/area';
+import {Area} from '../models/Area';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
