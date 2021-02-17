@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Revisao } from '../models/revisao';
-import { RevisaoService } from '../service/revisao.service';
+import { Controle } from '../models/controle';
+import { ControleService } from '../service/controle.service';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { Usuario } from '../models/usuario';
@@ -16,19 +16,20 @@ import { AutenticadorService } from '../service/autenticador.service';
   styleUrls: ['./revisao.component.css']
 })
 export class RevisaoComponent implements OnInit {
-  revisaoDialogo: boolean;
+ 
+  controleDialogo: boolean;
   usuarios: Usuario[];
   equipamentos:Equipamento[];
   labelEquipamento:String;
-  revisoes: Revisao[];
-  revisao: Revisao;
-  revisoesSelecionadas: Revisao[];
+  controles: Controle[];
+  controle: Controle;
+  controlesSelecionados: Controle[];
   submitted: boolean;
   currentUser: Usuario;
 
  
 
-  constructor(private revisaoService: RevisaoService,
+  constructor(private controleService: ControleService,
     private messageService: MessageService, 
     private usuarioService: UserService,
     private equipamentoService:EquipamentoService,
@@ -40,14 +41,14 @@ export class RevisaoComponent implements OnInit {
 
   
   ngOnInit() {
-      this.listarRevisaos();
+      this.listarControles();
   }
 
-  listarRevisaos(): void {
-    this.revisaoService.getRevisoes()
+  listarControles(): void {
+    this.controleService.getControles()
         .subscribe(
         data => {
-            this.revisoes = data;
+            this.controles = data;
         },
         error => {
             console.log(error);
@@ -57,16 +58,16 @@ export class RevisaoComponent implements OnInit {
 
   abrirNovo(){
         
-    this.revisao = {};
+    this.controle = {};
     this.submitted = false;
-    this.revisaoDialogo = true;
+    this.controleDialogo = true;
     this.listarUsuarios();
     this.listarEquipamentos();
 
   }
 
   esconderDialogo(){
-    this.revisaoDialogo = false;
+    this.controleDialogo = false;
     this.submitted = false;
 
   }
@@ -97,10 +98,10 @@ export class RevisaoComponent implements OnInit {
 
 
 
-  salvarRevisao(){
+  salvarControle(){
     this.submitted = true;
 
-      this.revisaoService.addRevisao(this.revisao)
+      this.controleService.addControle(this.controle)
       .subscribe(
           response => {
           console.log(response);
@@ -109,27 +110,27 @@ export class RevisaoComponent implements OnInit {
           error => {
           console.log(error);
           });
-        this.revisoes.push(this.revisao);
+        this.controles.push(this.controle);
         this.messageService.add({severity:'success', summary: 'Successful', 
-        detail: 'Revisao feita com sucesso', life: 3000});
+        detail: 'Controle feita com sucesso', life: 3000});
   
         this.usuarios = [...this.usuarios];
-        this.revisaoDialogo = false;
-        this.revisao = {};
+        this.controleDialogo = false;
+        this.controle = {};
   }
 
-  editaEquipamento(Revisao: Revisao) {
-    this.revisao = {...Revisao};
-    this.revisaoDialogo = true;
+  editaEquipamento(controle: Controle) {
+    this.controle = {...controle};
+    this.controleDialogo = true;
     
 }
 
 
-devolveRevisao(revisao: Revisao){
-  const id = revisao.id;
+devolveControle(controle: Controle){
+  const id = controle.id;
 
   this.confirmationService.confirm({
-      message: 'Solicitar o equipamento ' + revisao.equipamento.descricao + '?',
+      message: 'Solicitar o equipamento ' + controle.equipamento.descricao + '?',
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       acceptLabel:'Sim',
@@ -138,13 +139,13 @@ devolveRevisao(revisao: Revisao){
       accept: () => {
         
 
-          this.revisaoService.updateRevisao(revisao.id, revisao)
+          this.controleService.updateControle(controle)
           .subscribe(
               response => {
                   console.log(response);
-                  this.revisoes = this.revisoes.filter(val =>  val.id
-                       !== revisao.id);
-                  this.revisao = {};
+                  this.controles = this.controles.filter(val =>  val.id
+                       !== controle.id);
+                  this.controle = {};
                   this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento solicitado', life: 3000});
               },
               error => {

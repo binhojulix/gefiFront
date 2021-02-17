@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Associacao } from '../models/associacao';
-import { AssociacaoService } from '../service/associacao.service';
+import { Controle } from '../models/controle';
+import { ControleService } from '../service/controle.service';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { Usuario } from '../models/usuario';
@@ -9,6 +9,7 @@ import { UserService } from '../service/user.service';
 import { EquipamentoService } from '../service/equipamento.service';
 import { AutenticadorService } from '../service/autenticador.service';
 
+
 @Component({
   selector: 'app-associacao',
   templateUrl: './associacao.component.html',
@@ -16,37 +17,38 @@ import { AutenticadorService } from '../service/autenticador.service';
 })
 export class AssociacaoComponent implements OnInit {
 
-
-  AssociacaoDialogo: boolean;
+  controleDialogo: boolean;
   usuarios: Usuario[];
   equipamentos:Equipamento[];
   labelEquipamento:String;
-  associacoes: Associacao[];
-  associacao: Associacao;
-  associacoesSelecionadas: Associacao[];
+  controles: Controle[];
+  controle: Controle;
+  controlesSelecionados: Controle[];
   submitted: boolean;
+  currentUser: Usuario;
+
  
 
-  constructor(private associacaoService: AssociacaoService,
+  constructor(private controleService: ControleService,
     private messageService: MessageService, 
     private usuarioService: UserService,
     private equipamentoService:EquipamentoService,
+    private authenticationService: AutenticadorService,
     private confirmationService: ConfirmationService) {
-  
+      this.authenticationService
+        .currentUser.subscribe(x => this.currentUser = x);
      }
 
-    
-
+  
   ngOnInit() {
-      this.listarAssociacaos();
+      this.listarControles();
   }
 
-  listarAssociacaos(): void {
-    this.associacaoService.getAssociacoes()
+  listarControles(): void {
+    this.controleService.getControles()
         .subscribe(
         data => {
-            this.associacoes = data;
-            console.log(data);
+            this.controles = data;
         },
         error => {
             console.log(error);
@@ -56,26 +58,25 @@ export class AssociacaoComponent implements OnInit {
 
   abrirNovo(){
         
-    this.associacao = {};
+    this.controle = {};
     this.submitted = false;
-    this.AssociacaoDialogo = true;
+    this.controleDialogo = true;
     this.listarUsuarios();
     this.listarEquipamentos();
 
   }
 
   esconderDialogo(){
-    this.AssociacaoDialogo = false;
+    this.controleDialogo = false;
     this.submitted = false;
+
   }
 
   listarUsuarios(){
-        
     this.usuarioService.getUsuarios()
         .subscribe(
             data => {
                 this.usuarios = data;
-                console.log(data);
             },
             error => {
                 console.log(error);
@@ -89,7 +90,6 @@ export class AssociacaoComponent implements OnInit {
         .subscribe(
             data => {
                 this.equipamentos = data;
-                console.log(data);
             },
             error => {
                 console.log(error);
@@ -98,11 +98,10 @@ export class AssociacaoComponent implements OnInit {
 
 
 
-  salvarAssociacao(){
+  salvarControle(){
     this.submitted = true;
-        
 
-      this.associacaoService.addAssociacao(this.associacao)
+      this.controleService.addControle(this.controle)
       .subscribe(
           response => {
           console.log(response);
@@ -111,28 +110,27 @@ export class AssociacaoComponent implements OnInit {
           error => {
           console.log(error);
           });
-        this.associacoes.push(this.associacao);
+        this.controles.push(this.controle);
         this.messageService.add({severity:'success', summary: 'Successful', 
-        detail: 'Associacao feita com sucesso', life: 3000});
+        detail: 'Controle feita com sucesso', life: 3000});
   
         this.usuarios = [...this.usuarios];
-        this.AssociacaoDialogo = false;
-        this.associacao = {};
+        this.controleDialogo = false;
+        this.controle = {};
   }
 
-
-  editaEquipamento(associacao:Associacao) {
-    this.associacao = {...associacao};
-    this.AssociacaoDialogo = true;
+  editaEquipamento(controle: Controle) {
+    this.controle = {...controle};
+    this.controleDialogo = true;
     
 }
 
 
-devolveAssociacao(associacao:Associacao){
-  const id = associacao.id;
+devolveControle(controle: Controle){
+  const id = controle.id;
 
   this.confirmationService.confirm({
-      message: 'Solicitar o equipamento ' + associacao.equipamento.descricao + '?',
+      message: 'Solicitar o equipamento ' + controle.equipamento.descricao + '?',
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       acceptLabel:'Sim',
@@ -141,13 +139,13 @@ devolveAssociacao(associacao:Associacao){
       accept: () => {
         
 
-          this.associacaoService.updateAssociacao(associacao)
+          this.controleService.updateControle(controle)
           .subscribe(
               response => {
                   console.log(response);
-                  this.associacoes = this.Associacoes.filter(val =>  val.id
-                       !== associacao.id);
-                  this.associacao = {};
+                  this.controles = this.controles.filter(val =>  val.id
+                       !== controle.id);
+                  this.controle = {};
                   this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento solicitado', life: 3000});
               },
               error => {
