@@ -18,6 +18,7 @@ export class ControleComponent implements OnInit {
 
   revisaoDialogo: boolean;
   associacaoDialogo:boolean;
+  visualizarDialogo:boolean;
   usuarios: Usuario[];
   equipamentos:Equipamento[];
   labelEquipamento:String;
@@ -26,6 +27,7 @@ export class ControleComponent implements OnInit {
   controlesSelecionados: Controle[];
   submitted: boolean;
   currentUser: Usuario;
+  coletivo:boolean;
 
  
 
@@ -42,6 +44,7 @@ export class ControleComponent implements OnInit {
   
   ngOnInit() {
       this.listarControles();
+      this.coletivo = false;
   }
 
 
@@ -65,6 +68,11 @@ export class ControleComponent implements OnInit {
     this.submitted=false;
   }
 
+  esconderVisualizaoRevisao():void{
+    this.visualizarDialogo=false;
+    this.submitted=false;
+  }
+
 
   listarUsuarios(){
     this.usuarioService.getUsuarios()
@@ -75,6 +83,20 @@ export class ControleComponent implements OnInit {
             error => {
                 console.log(error);
             });
+  }
+
+
+  visualizar(controle:Controle):void{
+
+  }
+
+
+  mostrarColetivos():void{
+    this.coletivo=true;
+  }
+
+  mostrarIndividuais(){
+    this.coletivo=false;
   }
 
   
@@ -136,6 +158,11 @@ registraRevisao(controle:Controle){
 validaRevisao(controle:Controle){
   this.controle = {...controle};
   this.revisaoDialogo = true;
+}
+
+visualizarControle(controle:Controle){
+  this.controle = {...controle};
+  this.visualizarDialogo = true;
 }
 
 

@@ -5,15 +5,20 @@ import { Usuario } from "./usuario";
 export interface Controle {
     id?:Number;
     area?:Area;
-    usuario?:Usuario;
+    solicitante?:Usuario;
     equipamento?:Equipamento;
-    status?:string;
+    isDisponivelParaSolicitacao?:boolean;
     dataSolicitacao?:Date;
     dataDevolucao?:Date;
-    dataRevisao?:Date;
-    isDisponivel?:boolean;
+
+    isIndividual?:boolean;
+    responsavel?:Usuario;
+    usuarioValidador?:Usuario;
+    dataIndisponibilidade?:Date;
+    dataSolucao?:Date;
+    isDisponivelparaUso?:boolean;
     indisponibilidade?:string;
     solucao?:string;
-    individual?:boolean;
+   
 
 }

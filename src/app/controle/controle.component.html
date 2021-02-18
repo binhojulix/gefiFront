@@ -5,6 +5,12 @@
         <ng-template pTemplate="left">
             <button pButton pRipple label="Associar Equipamento" 
             icon="pi pi-plus" class="p-button-success p-mr-2" (click)="novaAssocicaoDeEquipamento()"></button>
+            
+            <button pButton pRipple label="Inviduais" 
+            icon="pi pi-user" class="p-button-warning p-mr-2" (click)="mostrarIndividuais()"></button>
+
+            <button pButton pRipple label="Coletivos" 
+            icon="pi pi-users" class="p-button-danger p-mr-2" (click)="mostrarColetivos()"></button>
        
         </ng-template>
 
@@ -12,63 +18,136 @@
     </p-toolbar>
 
 
-    <p-table #dt [value]="controles" [rows]="10" [paginator]="true" 
-    [globalFilterFields]="['usuario.nome','equipamento.descricao_equipamento']"
-        [(selection)]="controlesSelecionados" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Mostrando {first} de {last} do total de  {totalRecords} ítens" [showCurrentPageReport]="true">
-        <ng-template pTemplate="caption">
-            <div class="p-d-flex p-ai-center p-jc-between">
-                <h5 class="p-m-0">Controle de Ferramentas</h5>
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Pesquisar..." />
-                </span>
-            </div>
-        </ng-template>
+    <div *ngIf="coletivo">
+        <p-table #dt [value]="controles" [rows]="10" [paginator]="true" 
+        [globalFilterFields]="['area.sigla',
+                            'equipamento.descricao','equipamento.modelo', 'equipamento.fabricante', 'equipamento.codigo_cptm',
+                            'solicitante.nome',
+                            'isDisponivelParaSolicitacao']"
+            [(selection)]="controlesSelecionados" [rowHover]="true" dataKey="id" styleClass="p-datatable-sm"
+            currentPageReportTemplate="Mostrando {first} de {last} do total de  {totalRecords} ítens" [showCurrentPageReport]="true">
+            <ng-template pTemplate="caption">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    <h5 class="p-m-0">Controle de Ferramentas Coletivo</h5>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Pesquisar..." />
+                    </span>
+                </div>
+            </ng-template>
 
-        <ng-template pTemplate="header">
-           <tr>
-            <th pSortableColumn="Solicitante">Responsável<p-sortIcon field="controle.usuario.nome"></p-sortIcon></th>
-            <th pSortableColumn="descricao">Descricao <p-sortIcon field="controle.equipamento.descricao_equipamento"></p-sortIcon></th>
-            <th pSortableColumn="modelo">Modelo <p-sortIcon field="controle.equipamento.modelo"></p-sortIcon></th>
-            <th pSortableColumn="fabricante">Fabricante <p-sortIcon field="controle.equipamento.fabricante"></p-sortIcon></th>
-            <th pSortableColumn="codigoCPTM">CodigoCPTM <p-sortIcon field="controle.equipamento.codigo_cptm"></p-sortIcon></th>
-            <th pSortableColumn="status">Status<p-sortIcon field="status"></p-sortIcon></th>
-            <th *ngIf="currentUser.role === 'ADMIN'"></th>
-          </tr>
-        </ng-template>
-
-        <ng-template pTemplate="body" let-controle>
+            <ng-template pTemplate="header">
             <tr>
-                <td>{{controle.usuario.nome}}</td>
-           
-                <td>{{controle.equipamento.descricao}}</td>
-        
-                <td>{{controle.equipamento.modelo}}</td>
-       
-                <td>{{controle.equipamento.fabricante}}</td>
-          
-                <td>{{controle.equipamento.codigo_cptm}}</td>
-                <td>{{controle.status}}</td>
-                <td *ngIf="currentUser.role === 'ADMIN'"> 
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="registraRevisao(controle)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="validaRevisao(controle)"></button>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="devolveEquipamento(controle)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="solicitaEquipamento(controle)"></button>
-
-                 
-                </td>
-           
+                <th pSortableColumn="area">Área<p-sortIcon field="controle.area.sigla"></p-sortIcon></th>
+                <th pSortableColumn="descricao">Descricao <p-sortIcon field="controle.equipamento.descricao"></p-sortIcon></th>
+                <th pSortableColumn="modelo">Modelo <p-sortIcon field="controle.equipamento.modelo"></p-sortIcon></th>
+                <th pSortableColumn="fabricante">Fabricante <p-sortIcon field="controle.equipamento.fabricante"></p-sortIcon></th>
+                <th pSortableColumn="codigo_cptm">CodigoCPTM <p-sortIcon field="controle.equipamento.codigo_cptm"></p-sortIcon></th>
+                <th pSortableColumn="isIndividual">Tipo<p-sortIcon field="isIndividual"></p-sortIcon></th>
+                <th></th>
             </tr>
-        </ng-template>
+            </ng-template>
 
-        <ng-template pTemplate="summary">
-            <div class="p-d-flex p-ai-center p-jc-between">
-                Total:  {{controles ? controles.length : 0 }} controles
-            </div>
-        </ng-template>
+            <ng-template pTemplate="body" let-controle>
+                <tr>
+                    <td>{{controle.area.sigla}}</td>
+                    <td>{{controle.equipamento.descricao}}</td>
+                    <td>{{controle.equipamento.modelo}}</td>
+                    <td>{{controle.equipamento.fabricante}}</td>
+                    <td>{{controle.equipamento.codigo_cptm}}</td>
+                    <td>{{controle.isIndividual}}</td>
+                    <td>
+            
 
-    </p-table>
+                        <button pButton pRipple icon="pi pi-caret-up" class="p-button-rounded p-button-success p-mr-1" 
+                        (click)="solicitaEquipamento(controle)" title="Solicita o Equipamento"
+                        *ngIf="!controle.individual && controle.isDisponivelParaSolicitacao"></button>
+
+                        <button pButton pRipple icon="pi pi-caret-down" class="p-button-rounded p-button-warning p-mr-1"
+                        (click)="devolveEquipamento(controle)" title="Devolve Equipamento"
+                        *ngIf="!controle.individual && !controle.isDisponivelParaSolicitacao"></button>
+
+                        <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info p-mr-1" 
+                        (click)="visualizarControle(controle)" title="Visualizar"></button>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="summary">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    Total:  {{controles ? controles.length : 0 }} controles
+                </div>
+            </ng-template>
+        </p-table>
+    </div>
+
+
+
+    
+    <div *ngIf="!coletivo">
+        <p-table #dt [value]="controles" [rows]="10" [paginator]="true" 
+        [globalFilterFields]="['area.sigla',
+                            'equipamento.descricao','equipamento.modelo', 'equipamento.fabricante', 'equipamento.codigo_cptm',
+                            'solicitante.nome',
+                            'isDisponivelParaSolicitacao']"
+            [(selection)]="controlesSelecionados" [rowHover]="true" dataKey="id" styleClass="p-datatable-sm"
+            currentPageReportTemplate="Mostrando {first} de {last} do total de  {totalRecords} ítens" [showCurrentPageReport]="true">
+            <ng-template pTemplate="caption">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    <h5 class="p-m-0">Controle de Ferramentas individual</h5>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Pesquisar..." />
+                    </span>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="area">Área<p-sortIcon field="controle.area.sigla"></p-sortIcon></th>
+                <th pSortableColumn="descricao">Descricao <p-sortIcon field="controle.equipamento.descricao"></p-sortIcon></th>
+                <th pSortableColumn="modelo">Modelo <p-sortIcon field="controle.equipamento.modelo"></p-sortIcon></th>
+                <th pSortableColumn="fabricante">Fabricante <p-sortIcon field="controle.equipamento.fabricante"></p-sortIcon></th>
+                <th pSortableColumn="codigo_cptm">CodigoCPTM <p-sortIcon field="controle.equipamento.codigo_cptm"></p-sortIcon></th>
+                <th pSortableColumn="isIndividual">Tipo<p-sortIcon field="isIndividual"></p-sortIcon></th>
+                <th></th>
+            </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-controle>
+                <tr>
+                    <td>{{controle.area.sigla}}</td>
+                    <td>{{controle.equipamento.descricao}}</td>
+                    <td>{{controle.equipamento.modelo}}</td>
+                    <td>{{controle.equipamento.fabricante}}</td>
+                    <td>{{controle.equipamento.codigo_cptm}}</td>
+                    <td>{{controle.isIndividual}}</td>
+                    <td>
+            
+
+                        <button pButton pRipple icon="pi pi-caret-up" class="p-button-rounded p-button-success p-mr-1" 
+                        (click)="solicitaEquipamento(controle)" title="Solicita o Equipamento"
+                        *ngIf="!controle.individual && controle.isDisponivelParaSolicitacao"></button>
+
+                        <button pButton pRipple icon="pi pi-caret-down" class="p-button-rounded p-button-warning p-mr-1"
+                        (click)="devolveEquipamento(controle)" title="Devolve Equipamento"
+                        *ngIf="!controle.individual && !controle.isDisponivelParaSolicitacao"></button>
+
+                        <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info p-mr-1" 
+                        (click)="visualizarControle(controle)" title="Visualizar"></button>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="summary">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    Total:  {{controles ? controles.length : 0 }} controles
+                </div>
+            </ng-template>
+        </p-table>
+    </div>
+
+
 </div>
 
 
@@ -118,6 +197,40 @@
         <button pButton pRipple label="Savar" icon="pi pi-check" class="p-button-text" (click)="salvarControle()"></button>
     </ng-template>
 </p-dialog>
+
+
+
+
+<p-dialog [(visible)]="visualizarDialogo" [style]="{width: '450px'}"
+     header="Visualizar Controle" [modal]="true" styleClass="p-fluid" >
+    <ng-template pTemplate="content">
+
+        <div class="p-text-uppercase">{{controle.id}}</div>
+        <div class="p-text-uppercase">{{controle.equipamento.fabricante}}</div>
+        <div class="p-text-uppercase">{{controle.equipamento.modelo}}</div>
+        <div class="p-text-uppercase">{{controle.equipamento.codigo_cptm}}</div>
+        <div class="p-text-uppercase">{{controle.area.sigla}}</div>
+        <div class="p-text-uppercase">{{controle.dataSolicitacao}}</div>
+        <div class="p-text-uppercase">{{controle.dataDevolucao}}</div>
+        <div class="p-text-uppercase">{{controle.isDisponivelParaSolicitacao}}</div>
+
+      
+        <div *ngIf="controle.isIndividual">
+            <div class="p-text-uppercase">Responsável pelo equipamento: {{controle.responsavel.nome}}</div>
+            <div class="p-text-uppercase">Supervidor da área: {{controle.usuarioValidador.nome}}</div>
+            <div class="p-text-uppercase">Data da falha: {{controle.dataRevisao}}</div>
+            <div class="p-text-uppercase">Disponivel para uso: {{controle.isDisponivelparaUso}}</div>
+            <div class="p-text-uppercase">Motivo: {{controle.indisponibilidade}}</div>
+            <div class="p-text-uppercase">Solução: {{controle.solucao}}</div>
+        </div>
+   
+
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="esconderVisualizaoRevisao()"></button>
+    </ng-template>
+</p-dialog>
+
 
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
