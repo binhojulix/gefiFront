@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Controle } from '../models/controle';
 import { ControleService } from '../service/controle.service';
+import { SolicitacaoService } from '../service/solicitacao.service';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { Usuario } from '../models/usuario';
@@ -18,6 +19,7 @@ export class ControleComponent implements OnInit {
 
   revisaoDialogo: boolean;
   associacaoDialogo:boolean;
+  validacaoDialogo:boolean;
   visualizarDialogo:boolean;
   usuarios: Usuario[];
   equipamentos:Equipamento[];
@@ -31,7 +33,9 @@ export class ControleComponent implements OnInit {
 
  
 
-  constructor(private controleService: ControleService,
+  constructor(
+    private solicitacaoService: SolicitacaoService,
+    private controleService: ControleService,
     private messageService: MessageService, 
     private usuarioService: UserService,
     private equipamentoService:EquipamentoService,
@@ -70,6 +74,11 @@ export class ControleComponent implements OnInit {
 
   esconderVisualizaoRevisao():void{
     this.visualizarDialogo=false;
+    this.submitted=false;
+  }
+
+  esconderDialogoValidacao():void{
+    this.validacaoDialogo=false;
     this.submitted=false;
   }
 
@@ -154,6 +163,12 @@ registraRevisao(controle:Controle){
   this.controle = {...controle};
   this.revisaoDialogo = true;
 }  
+
+
+registrarValidacao(controle:Controle){
+  this.controle = {...controle};
+  this.validacaoDialogo = true;
+}
 
 validaRevisao(controle:Controle){
   this.controle = {...controle};

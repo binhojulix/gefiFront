@@ -37,6 +37,15 @@ export class ControleService {
       );
   }
 
+
+  getControlesDaArea(): Observable<Controle[]> {
+    return this.http.get<Controle[]>(apiUrl)
+      .pipe(
+        tap(controles => console.log('leu os Controles')),
+        catchError(this.handleError('getControlesDaArea', []))
+      );
+  }
+
   getControle(id: number): Observable<Controle> {
     const url = `${apiUrl}/${id}`;
     return this.http.get<Controle>(url).pipe(

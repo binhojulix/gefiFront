@@ -3,22 +3,14 @@ import { Equipamento } from "./equipamento";
 import { Usuario } from "./usuario";
 
 export interface Controle {
-    id?:Number;
-    area?:Area;
-    solicitante?:Usuario;
-    equipamento?:Equipamento;
-    isDisponivelParaSolicitacao?:boolean;
-    dataSolicitacao?:Date;
-    dataDevolucao?:Date;
-
-    isIndividual?:boolean;
-    responsavel?:Usuario;
-    usuarioValidador?:Usuario;
-    dataIndisponibilidade?:Date;
-    dataSolucao?:Date;
-    isDisponivelparaUso?:boolean;
-    indisponibilidade?:string;
-    solucao?:string;
-   
+      id?:Number;
+      motivo_falha?:string;
+      solucao_falha?:Date;
+      data_falha?:Date;
+      data_solucao?:Date; 
+      disponivel?:boolean;
+      equipamento?:Equipamento;
+      usuario?:Usuario;
+      area?:Area;
 
 }

@@ -10,7 +10,7 @@ const httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 
-const apiUrl = `${environment.apiUrl}/autenticar`;
+const apiUrl = `${environment.apiUrl}/usuarios/autenticar`;
 
   
 
