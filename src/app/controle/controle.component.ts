@@ -166,14 +166,6 @@ registraEResolvePendencia(controle:Controle){
     `Devolver o Equipamento ${controle.equipamento.descricao} ?`;
   }
 
-  this.confirmationService.confirm({
-      message: mensagem,
-      header: 'Confirmar',
-      icon: 'pi pi-exclamation-check',
-      acceptLabel:'Sim',
-      rejectLabel:'Não',
-
-      accept: () => {
 
         controle.disponivel = !disponivel;
         this.controleService.updateControle(controle)
@@ -212,7 +204,7 @@ registraEResolvePendencia(controle:Controle){
         );
       
       }
-  });
+  
 }
 
 
@@ -231,12 +223,12 @@ visualizar(controle:Controle){
 
   this.pendenciaService.getPendenciasByControle(controle.id)
   .subscribe(
-  data => {
-      this.controle.pendencias = data;
-  },
-  error => {
-      console.log(error);
-  });
+    data => {
+        this.controle.pendencias = data;
+    },
+    error => {
+        console.log(error);
+    });
 
 }
 
