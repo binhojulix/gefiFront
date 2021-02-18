@@ -18,6 +18,7 @@ import { EquipamentoService } from './service/equipamento.service';
 import { UserService } from './service/user.service';
 import { ControleService } from './service/controle.service';
 import { SolicitacaoService } from './service/solicitacao.service';
+import {PendenciaService} from './service/pendencia.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ErrorInterceptor } from '../app/helpers/error.interceptor';
 import { JwtInterceptor } from '../app/helpers/jwt.interceptor';
@@ -45,7 +46,7 @@ import {appInitializer} from '../app/helpers/app.initializer';
     ReactiveFormsModule,
   ],
   providers: [
-     EquipamentoService,ControleService,UserService,SolicitacaoService,
+     EquipamentoService,ControleService,UserService,SolicitacaoService,PendenciaService,
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AutenticadorService] },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

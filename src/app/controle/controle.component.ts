@@ -1,11 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Controle } from '../models/controle';
-import { ControleService } from '../service/controle.service';
-import { SolicitacaoService } from '../service/solicitacao.service';
-import { ConfirmationService } from 'primeng/api';
-import { MessageService } from 'primeng/api';
 import { Usuario } from '../models/usuario';
 import {Equipamento} from '../models/equipamento';
+import { Solicitacao } from '../models/solicitacao';
+import {Pendencia } from '../models/pendencia';
+import { ControleService } from '../service/controle.service';
+import { SolicitacaoService } from '../service/solicitacao.service';
+import { PendenciaService } from '../service/pendencia.service';
+import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { UserService } from '../service/user.service';
 import { EquipamentoService } from '../service/equipamento.service';
 import { AutenticadorService } from '../service/autenticador.service';
@@ -17,19 +20,20 @@ import { AutenticadorService } from '../service/autenticador.service';
 })
 export class ControleComponent implements OnInit {
 
-  revisaoDialogo: boolean;
+  controleDialogo: boolean;
   associacaoDialogo:boolean;
-  validacaoDialogo:boolean;
-  visualizarDialogo:boolean;
+  defeitoControleDialogo:boolean;
+  solicitacaoDialogo:boolean;
+  pendenciaDialogo:boolean;
   usuarios: Usuario[];
   equipamentos:Equipamento[];
-  labelEquipamento:String;
   controles: Controle[];
-  controle: Controle;
   controlesSelecionados: Controle[];
+  controle: Controle;
+  solicitacao:Solicitacao;
   submitted: boolean;
   currentUser: Usuario;
-  coletivo:boolean;
+ 
 
  
 
@@ -37,6 +41,7 @@ export class ControleComponent implements OnInit {
     private solicitacaoService: SolicitacaoService,
     private controleService: ControleService,
     private messageService: MessageService, 
+    private pendenciaService:PendenciaService,
     private usuarioService: UserService,
     private equipamentoService:EquipamentoService,
     private authenticationService: AutenticadorService,
@@ -52,7 +57,8 @@ export class ControleComponent implements OnInit {
   }
 
 
-  novaAssocicaoDeEquipamento(){
+  //associa equipamento ao usuario ou a área
+  novoControle(){
     this.controle = {};
     this.submitted = false;
     this.associacaoDialogo = true;
@@ -62,7 +68,7 @@ export class ControleComponent implements OnInit {
 
 
 
-  esconderDialogoRevisao():void{
+  esconderDialogoControle():void{
     this.revisaoDialogo = false;
     this.submitted = false;
   }
@@ -72,15 +78,31 @@ export class ControleComponent implements OnInit {
     this.submitted=false;
   }
 
-  esconderVisualizaoRevisao():void{
-    this.visualizarDialogo=false;
-    this.submitted=false;
-  }
-
   esconderDialogoValidacao():void{
     this.validacaoDialogo=false;
     this.submitted=false;
   }
+
+  esconderVisualizaoControle():void{
+    this.visualizarControleDiaolgo=false;
+    this.submitted=false;
+  }
+  esconderVizualizacaoSolicitacao():void{
+    this.visualizarSolicitacaoDialogo=false;
+    this.submitted=false;
+  }
+
+
+  mostrarSolicitacao():void{
+    this.coletivo=true;
+  }
+
+  mostrarControles():void{
+    this.coletivo=false;
+  }
+
+
+  
 
 
   listarUsuarios(){
@@ -95,20 +117,6 @@ export class ControleComponent implements OnInit {
   }
 
 
-  visualizar(controle:Controle):void{
-
-  }
-
-
-  mostrarColetivos():void{
-    this.coletivo=true;
-  }
-
-  mostrarIndividuais(){
-    this.coletivo=false;
-  }
-
-  
   listarEquipamentos():void{
         
     this.equipamentoService.getEquipamentosNaoAssociados()
@@ -136,110 +144,162 @@ export class ControleComponent implements OnInit {
 
 
 
-  associaEquipamento(){
-    this.submitted = true;
 
-      this.controleService.addControle(this.controle)
-      .subscribe(
-          response => {
-          console.log(response);
-          this.submitted = true;
-          },
-          error => {
-          console.log(error);
-          });
-        this.controles.push(this.controle);
-        this.messageService.add({severity:'success', summary: 'Successful', 
-        detail: 'Controle feita com sucesso', life: 3000});
-  
-        this.usuarios = [...this.usuarios];
-        this.revisaoDialogo = false;
-        this.controle = {};
+adicionaControle(controle:Controle){
+  this.controleService.addControle(this.controle)
+  .subscribe(
+      response => {
+          this.controles = this.controles.filter(val =>  val.id
+               !== controle.id);
+          this.controle = {};
+      },
+      error => {
+        console.log(error);
+      });
+}
+
+registraEResolvePendencia(controle:Controle){
+  const disponivel = controle.disponivel;
+
+  const mensagem = `Solicitar o Equipamento ${controle.equipamento.descricao} ?`;
+  if(disponivel){
+    `Devolver o Equipamento ${controle.equipamento.descricao} ?`;
   }
 
-
-
-registraRevisao(controle:Controle){
-  this.controle = {...controle};
-  this.revisaoDialogo = true;
-}  
-
-
-registrarValidacao(controle:Controle){
-  this.controle = {...controle};
-  this.validacaoDialogo = true;
-}
-
-validaRevisao(controle:Controle){
-  this.controle = {...controle};
-  this.revisaoDialogo = true;
-}
-
-visualizarControle(controle:Controle){
-  this.controle = {...controle};
-  this.visualizarDialogo = true;
-}
-
-
-devolveEquipamento(controle: Controle){
-  const id = controle.id;
-
   this.confirmationService.confirm({
-      message: 'Devolver Equipamento o equipamento ' + controle.equipamento.descricao + '?',
+      message: mensagem,
       header: 'Confirmar',
-      icon: 'pi pi-exclamation-triangle',
+      icon: 'pi pi-exclamation-check',
       acceptLabel:'Sim',
       rejectLabel:'Não',
 
       accept: () => {
-        
 
-          this.controleService.updateControle(controle)
-          .subscribe(
-              response => {
-                  console.log(response);
-                  this.controles = this.controles.filter(val =>  val.id
-                       !== controle.id);
-                  this.controle = {};
-                  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento solicitado', life: 3000});
-              },
-              error => {
-              console.log(error);
-              });
-
-         
+        controle.disponivel = !disponivel;
+        this.controleService.updateControle(controle)
+        .subscribe(
+            response=>{
+              if(disponivel){
+                this.solicitacao.usuario = this.currentUser;
+                this.solicitacao.data_solicitacao = new Date();
+                this.solicitacao.controle=controle;
+                this.solicitacaoService.addSolicitacao(this.solicitacao)
+                .subscribe(
+                    response => {
+                      this.solicitacao = {};
+                    },
+                    error => {
+                      console.log(error);
+                    })
+              }else{
+                this.solicitacao.data_devolucao = new Date();
+                this.solicitacaoService.updateSolicitacao(this.solicitacao)
+                .subscribe(
+                    response => {
+                      this.solicitacao = {}
+                    },
+                    error => {
+                      console.log(error);
+                    })
+              }
+              this.controles = this.controles.filter(val =>  val.id
+                !== controle.id);
+                this.controle={};
+            },
+            error=>{
+              console.log(error)
+            }
+        );
+      
       }
   });
 }
 
 
-solicitaEquipamento(controle: Controle){
-  const id = controle.id;
+
+visualizar(controle:Controle){
+  this.controle = {...controle};
+  this.solicitacaoService.getSolicitacoesByControle(controle.id)
+    .subscribe(
+    data => {
+        this.controle.solicitacoes = data;
+    },
+    error => {
+        console.log(error);
+    });
+  
+
+  this.pendenciaService.getPendenciasByControle(controle.id)
+  .subscribe(
+  data => {
+      this.controle.pendencias = data;
+  },
+  error => {
+      console.log(error);
+  });
+
+}
+
+
+
+
+
+
+
+
+solicitaEDevolveEquipamento(controle:Controle){
+  const disponivel = controle.disponivel;
+
+  const mensagem = `Solicitar o Equipamento ${controle.equipamento.descricao} ?`;
+  if(disponivel){
+    `Devolver o Equipamento ${controle.equipamento.descricao} ?`;
+  }
 
   this.confirmationService.confirm({
-      message: 'Solicitar o equipamento ' + controle.equipamento.descricao + '?',
+      message: mensagem,
       header: 'Confirmar',
-      icon: 'pi pi-exclamation-triangle',
+      icon: 'pi pi-exclamation-check',
       acceptLabel:'Sim',
       rejectLabel:'Não',
 
       accept: () => {
-        
 
-          this.controleService.updateControle(controle)
-          .subscribe(
-              response => {
-                  console.log(response);
-                  this.controles = this.controles.filter(val =>  val.id
-                       !== controle.id);
-                  this.controle = {};
-                  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento solicitado', life: 3000});
-              },
-              error => {
-              console.log(error);
-              });
-
-         
+        controle.disponivel = !disponivel;
+        this.controleService.updateControle(controle)
+        .subscribe(
+            response=>{
+              if(disponivel){
+                this.solicitacao.usuario = this.currentUser;
+                this.solicitacao.data_solicitacao = new Date();
+                this.solicitacao.controle=controle;
+                this.solicitacaoService.addSolicitacao(this.solicitacao)
+                .subscribe(
+                    response => {
+                      this.solicitacao = {};
+                    },
+                    error => {
+                      console.log(error);
+                    })
+              }else{
+                this.solicitacao.data_devolucao = new Date();
+                this.solicitacaoService.updateSolicitacao(this.solicitacao)
+                .subscribe(
+                    response => {
+                      this.solicitacao = {}
+                    },
+                    error => {
+                      console.log(error);
+                    })
+              }
+              this.controles = this.controles.filter(val =>  val.id
+                !== controle.id);
+                this.controle={};
+            },
+            error=>{
+              console.log(error)
+            }
+        );
+      
       }
   });
 }

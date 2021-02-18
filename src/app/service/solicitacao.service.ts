@@ -29,6 +29,15 @@ export class SolicitacaoService {
       );
   }
 
+  getSolicitacoesByControle(id_controle:Number): Observable<Solicitacao[]> {
+    return this.http.get<Solicitacao[]>(apiUrl)
+      .pipe(
+        tap(solicitacoes => console.log('leu os Solicitacoes')),
+        catchError(this.handleError('getSolicitacoes', []))
+      );
+  }
+
+
   getSolicitacaosDoUsuario(): Observable<Solicitacao[]> {
     return this.http.get<Solicitacao[]>(apiUrl)
       .pipe(
