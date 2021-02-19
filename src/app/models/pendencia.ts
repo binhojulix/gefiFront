@@ -6,7 +6,7 @@ export interface Pendencia {
     motivo_pendencia?:string;
     solucao_pendencia?:string;
     data_pendencia?:Date;
-    data_devolucao?:Date; 
+    data_solucao?:Date; 
     controle?:Controle;
   
 }

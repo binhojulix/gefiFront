@@ -135,7 +135,26 @@ export class ControleComponent implements OnInit {
   }
 
   visualizar(controle:Controle){
-    this.visualizarDialogo = true;
+    this.visualizarDialogo=true;
+
+     var a:Pendencia = {
+      id:1,
+      solucao_pendencia:"teste",
+      data_pendencia:new Date(),
+      data_solucao:new Date(),
+      motivo_pendencia:"testanto"
+    }
+    this.pendencia = a;
+
+    var b:Solicitacao = {
+      id:1,
+      data_devolucao:new Date(),
+      data_solicitacao:new Date(),
+      usuario:this.currentUser
+    }
+    this.solicitacao = b;
+   
+
   }
 
 

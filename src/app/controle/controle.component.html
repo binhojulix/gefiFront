@@ -33,7 +33,7 @@
 
             <ng-template pTemplate="header">
             <tr>
-                <th></th>
+                <th pSortableColumn="id">N° Controle</th>
                 <th pSortableColumn="equipamento.descricao">Descricao <p-sortIcon field="controle.equipamento.descricao"></p-sortIcon></th>
                 <th pSortableColumn="equipamento.modelo">Modelo <p-sortIcon field="controle.equipamento.modelo"></p-sortIcon></th>
                 <th pSortableColumn="equipamento.fabricante">Fabricante <p-sortIcon field="controle.equipamento.fabricante"></p-sortIcon></th>
@@ -93,6 +93,29 @@
         header="Visualizar Controle" [modal]="true" styleClass="p-fluid" >
 
         <ng-template pTemplate="content">
+
+           
+                {{pendencia.id}}
+               {{pendencia.solucao_pendencia}}
+               {{pendencia.motivo_pendencia}}
+               {{pendencia.data_pendencia}}
+               {{pendencia.data_solucao}}
+               ---------------------
+            solicitacao
+
+               {{solicitacao.id}}
+               {{solicitacao.usuario.nome}}
+               {{solicitacao.data_devolucao}}
+               {{solicitacao.data_solicitacao}}
+     
+
+     
+         
+
+
+
+
+          
         </ng-template>
         <ng-template pTemplate="footer">
             <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="fecharVisualizarDialogo()"></button>
@@ -113,7 +136,7 @@
         <div class="p-field">
             <label for="nome">Equipamentos</label>
         <p-dropdown [options]="equipamentos" [(ngModel)]="controle.equipamento"
-            optionLabel="descricao_equipamento" [filter]="true" filterBy="codigo_cptm"
+            optionLabel="descricao" [filter]="true" filterBy="codigo_cptm"
             [showClear]="true" placeholder="Selecione o Equipamento">
         </p-dropdown>
         </div>
