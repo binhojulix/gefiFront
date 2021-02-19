@@ -21,13 +21,16 @@ export class ControleService {
   constructor(private http: HttpClient) { }
 
   //lista todos os controles
-  getControles(): Observable<Controle[]> {
-    return this.http.get<Controle[]>(apiUrl)
+  getControles(coletivo:boolean): Observable<Controle[]> {
+    const url = `${apiUrl}/coletivo/${coletivo}`;
+    return this.http.get<Controle[]>(url)
       .pipe(
-        tap(controles => console.log('leu os Controles')),
-        catchError(this.handleError('getControles', []))
+        tap(controles => console.log(`leu os Controles coletivos${coletivo}`)),
+        catchError(this.handleError(`getControles coletivo=${coletivo}`, []))
       );
   }
+
+  
 
   getControlesDoUsuario(): Observable<Controle[]> {
     return this.http.get<Controle[]>(apiUrl)

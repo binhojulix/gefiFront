@@ -8,7 +8,7 @@ export interface Controle {
       id?:Number;
       status?:string;
       disponivel?:boolean;
-      pendete?:boolean;
+      pendente?:boolean;
       coletivo?:boolean;
       equipamento?:Equipamento;
       usuario?:Usuario;
