@@ -89,8 +89,20 @@
     </div>
 
 
+    <p-dialog [(visible)]="visualizarDialogo" [style]="{width: '450px'}"
+        header="Visualizar Controle" [modal]="true" styleClass="p-fluid" >
 
-<p-dialog [(visible)]="controleDialogo" [style]="{width: '100%'}"
+        <ng-template pTemplate="content">
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="fecharVisualizarDialogo()"></button>
+        </ng-template>
+    </p-dialog>
+
+
+
+
+<p-dialog [(visible)]="controleDialogo" [style]="{width: '450px'}"
      header="Associar Equipamento" [modal]="true" styleClass="p-fluid" >
     <ng-template pTemplate="content">
         <div class="p-field">
@@ -113,16 +125,40 @@
 </p-dialog>
 
 
-<p-dialog [(visible)]="pendenciaDialogo" [style]="{width: '100%'}"
-     header={{status_pendencia}} [modal]="true" styleClass="p-fluid" >
+<p-dialog [(visible)]="pendenciaDialogo" [style]="{width: '480px'}"
+     header={{status_pendencia}} [modal]="true" styleClass="p-fluid" blockScroll="false">
     <ng-template pTemplate="content">
+
         <div class="p-field">
-          
+            <label for="solicitacao_usuario_nome">Nome do responsável pelo equipamento</label>
+            <input type="text" pInputText id="solicitacao_usuario_nome" [(ngModel)]="controle.usuario.nome" required autofocus disabled/>
         </div>
+        
         <div class="p-field">
-   
+            <label for="solicitacao_descricao_equipamento">Descrição do equipamento</label>
+            <input type="text" pInputText id="solicitacao_descricao_usuario" [(ngModel)]="controle.equipamento.descricao" required autofocus disabled/>
         </div>
+
+        <div class="p-field">
+            <label for="solicitacao_data_pendencia">Data da pendencia</label>
+            <input type="text" pInputText id="solicitacao_data_pendencia" [(ngModel)]="pendencia.data_pendencia" required autofocus disabled/>
+        </div>
+        
+
+        <div class="p-field">
+            <label for="nome">Descrição da Pendencia</label>
+            <textarea [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize" *ngIf="!controle.pendente"  [(ngModel)]="pendencia.motivo_pendencia"></textarea>
+            <textarea [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize" *ngIf="controle.pendente" disabled  [(ngModel)]="pendencia.motivo_pendencia"></textarea>
+         
+        </div>
+        <div class="p-field" *ngIf="controle.pendente">
+            <label for="nome">Solução</label>
+            <textarea [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize" *ngIf="controle.pendente"  [(ngModel)]="pendencia.solucao_pendencia"></textarea>
+            <textarea [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize" *ngIf="!controle.pendente" disabled  [(ngModel)]="pendencia.solucao_pendencia"></textarea>
+        </div>
+
     </ng-template>
+
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="fecharPendenciaDialogo()"></button>
         <button pButton pRipple label="Savar" icon="pi pi-check" class="p-button-text" (click)="adicionaPendencia()"></button>
@@ -132,19 +168,6 @@
 
 
 
-<p-dialog [(visible)]="visualizarDialogo" [style]="{width: '450px'}"
-     header="Visualizar Controle" [modal]="true" styleClass="p-fluid" >
-    <ng-template pTemplate="content">
-
-        <div *ngIf="!controle.coletivo">
-       
-        </div>
-
-    </ng-template>
-    <ng-template pTemplate="footer">
-        <button pButton pRipple label="Fechar" icon="pi pi-times" class="p-button-text" (click)="fecharVisualizarDialogo()"></button>
-    </ng-template>
-</p-dialog>
 
 
 

@@ -57,7 +57,7 @@ export class ControleComponent implements OnInit {
 
   
   ngOnInit() {
-      this.coletivo=false;
+      this.coletivo=true;
       this.label ="Controle de ferramentas coletiva";
       this.listarControles(this.coletivo);
     
@@ -123,6 +123,7 @@ export class ControleComponent implements OnInit {
   }
 
   tratarPendencia(controle:Controle){
+    this.controle = controle;
     this.pendencia = {};
     this.submitted = false;
     this.pendenciaDialogo = true;
@@ -131,11 +132,16 @@ export class ControleComponent implements OnInit {
     }else{
       this.status_pendencia ="Nova Pendência";
     }
-    
+  }
 
+  visualizar(controle:Controle){
+    this.visualizarDialogo = true;
   }
 
 
+  fecharVisualizarDialogo(){
+    this.visualizarDialogo=false;
+  }
 
   fecharPendenciaDialogo(){
     this.pendenciaDialogo=false;
@@ -147,10 +153,6 @@ export class ControleComponent implements OnInit {
     this.controle={};
   }
 
-  fecharVisualizarDialogo(){
-    this.visualizarDialogo=false;
-    this.controle={};
-  }
 
 
 
@@ -159,16 +161,64 @@ export class ControleComponent implements OnInit {
   }  
 
   solicitaEquipamento(controle:Controle){
+    const id = controle.id;
 
+    this.confirmationService.confirm({
+        message: `Solicitar o equipamento ${controle.equipamento.descricao} ?`,
+        header: 'Confirmar',
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel:'Sim',
+        rejectLabel:'Não',
+
+        accept: () => {
+          controle.status="INDISPONIVEL";
+          controle.disponivel=false;
+
+            this.controleService.updateControle(controle)
+            .subscribe(
+                response => {
+                    this.controles[this.findIndexById(controle.id)] = controle
+                    this.messageService.add({severity:'success', summary: 'Successful', detail: 'Controle selecionado', life: 3000});
+                },
+                error => {
+                console.log(error);
+                });
+
+           
+        }
+    });
   }
 
   devolveEquipamento(controle:Controle){
+    const id = controle.id;
 
+    this.confirmationService.confirm({
+        message: `Devolver o equipamento ${controle.equipamento.descricao} ?`,
+        header: 'Confirmar',
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel:'Sim',
+        rejectLabel:'Não',
+
+        accept: () => {
+          
+            controle.status="DISPONIVEL";
+            controle.disponivel=true;
+            this.controleService.updateControle(controle)
+            .subscribe(
+                response => {
+                    console.log(response);
+                    this.controles[this.findIndexById(controle.id)] = controle
+                    this.messageService.add({severity:'success', summary: 'Successful', detail: 'Controle selecionado', life: 3000});
+                },
+                error => {
+                console.log(error);
+                });
+
+           
+        }
+    });
   }
 
-  visualizar(controle:Controle){
-    this.visualizarDialogo=true;
-  }
 
   adicionaPendencia(controle:Controle){
 
@@ -178,6 +228,17 @@ export class ControleComponent implements OnInit {
 
   }
 
+  findIndexById(id: Number): number {
+    let index = -1;
+    for (let i = 0; i < this.equipamentos.length; i++) {
+        if (this.equipamentos[i].id === id) {
+            index = i;
+            break;
+        }
+    }
+
+    return index;
+}
 
 
 

@@ -69,7 +69,7 @@ export class ControleService {
   //atualiza um controle
   updateControle(controle): Observable<any> {
     const url = `${apiUrl}/${controle.id}`;
-    return this.http.put(url, controle, httpOptions).pipe(
+    return this.http.patch(url, controle, httpOptions).pipe(
       tap(_ => console.log(`atualiza o Controle com id=${controle.id}`)),
       catchError(this.handleError<any>('updateControle'))
     );
