@@ -20,23 +20,19 @@ import { AutenticadorService } from '../service/autenticador.service';
 })
 export class ControleComponent implements OnInit {
 
-  controleDialogo: boolean;
-  associacaoDialogo:boolean;
-  defeitoControleDialogo:boolean;
-  solicitacaoDialogo:boolean;
-  pendenciaDialogo:boolean;
   usuarios: Usuario[];
   equipamentos:Equipamento[];
   controles: Controle[];
   controlesSelecionados: Controle[];
   controle: Controle;
   solicitacao:Solicitacao;
+  pendencia:Pendencia;
   submitted: boolean;
   currentUser: Usuario;
+  visualizarDialogo:boolean;
+  controleDialogo:boolean;
+  pendenciaDialogo:boolean;
  
-
- 
-
   constructor(
     private solicitacaoService: SolicitacaoService,
     private controleService: ControleService,
@@ -48,61 +44,26 @@ export class ControleComponent implements OnInit {
     private confirmationService: ConfirmationService) {
       this.authenticationService
         .currentUser.subscribe(x => this.currentUser = x);
-     }
+    }
 
   
   ngOnInit() {
       this.listarControles();
-      this.coletivo = false;
+    
   }
-
 
   //associa equipamento ao usuario ou a área
-  novoControle(){
+  abrirNovoControle(){
     this.controle = {};
     this.submitted = false;
-    this.associacaoDialogo = true;
-    this.listarUsuarios();
-    this.listarEquipamentos();
-  }
+    this.controleDialogo = true;
+}
 
-
-
-  esconderDialogoControle():void{
-    this.revisaoDialogo = false;
-    this.submitted = false;
-  }
-
-  esconderDialogoAssociacao():void{
-    this.associacaoDialogo=false;
+  abrirNovaPendencia(){
+    this.pendencia={};
     this.submitted=false;
+    this.pendenciaDialogo=true;
   }
-
-  esconderDialogoValidacao():void{
-    this.validacaoDialogo=false;
-    this.submitted=false;
-  }
-
-  esconderVisualizaoControle():void{
-    this.visualizarControleDiaolgo=false;
-    this.submitted=false;
-  }
-  esconderVizualizacaoSolicitacao():void{
-    this.visualizarSolicitacaoDialogo=false;
-    this.submitted=false;
-  }
-
-
-  mostrarSolicitacao():void{
-    this.coletivo=true;
-  }
-
-  mostrarControles():void{
-    this.coletivo=false;
-  }
-
-
-  
 
 
   listarUsuarios(){
@@ -129,6 +90,7 @@ export class ControleComponent implements OnInit {
             });
   }
 
+
   listarControles(): void {
     this.controleService.getControles()
         .subscribe(
@@ -142,15 +104,12 @@ export class ControleComponent implements OnInit {
 
 
 
-
-
-
-adicionaControle(controle:Controle){
+adicionaControle(){
   this.controleService.addControle(this.controle)
   .subscribe(
       response => {
           this.controles = this.controles.filter(val =>  val.id
-               !== controle.id);
+               !== this.controle.id);
           this.controle = {};
       },
       error => {
@@ -158,37 +117,47 @@ adicionaControle(controle:Controle){
       });
 }
 
+escondeControle(){
+  this.controleDialogo = false;
+}
+escondePendencia(){
+  this.pendenciaDialogo = false;
+}
+
+escondeVisualizacao(){
+  this.visualizarDialogo =false;
+}
+
+
 registraEResolvePendencia(controle:Controle){
+
+
+
   const disponivel = controle.disponivel;
-
-  const mensagem = `Solicitar o Equipamento ${controle.equipamento.descricao} ?`;
-  if(disponivel){
-    `Devolver o Equipamento ${controle.equipamento.descricao} ?`;
-  }
-
 
         controle.disponivel = !disponivel;
         this.controleService.updateControle(controle)
         .subscribe(
             response=>{
               if(disponivel){
-                this.solicitacao.usuario = this.currentUser;
-                this.solicitacao.data_solicitacao = new Date();
-                this.solicitacao.controle=controle;
-                this.solicitacaoService.addSolicitacao(this.solicitacao)
+         
+                this.pendencia.data_pendencia = new Date();
+                this.pendencia.controle=controle;
+                this.pendenciaService.addPendencia(this.pendencia)
                 .subscribe(
                     response => {
-                      this.solicitacao = {};
+                      this.pendencia= {};
                     },
                     error => {
                       console.log(error);
                     })
               }else{
-                this.solicitacao.data_devolucao = new Date();
-                this.solicitacaoService.updateSolicitacao(this.solicitacao)
+                this.pendencia.data_pendencia = new Date();
+                this.pendencia.controle= this.controle;
+                this.pendenciaService.updatePendencia(this.pendencia)
                 .subscribe(
                     response => {
-                      this.solicitacao = {}
+                      this.pendencia = {}
                     },
                     error => {
                       console.log(error);
@@ -205,13 +174,18 @@ registraEResolvePendencia(controle:Controle){
       
       }
   
-}
+    
 
 
 
 visualizar(controle:Controle){
+
+
   this.controle = {...controle};
-  this.solicitacaoService.getSolicitacoesByControle(controle.id)
+
+  this.visualizarDialogo=true;
+
+  this.solicitacaoService.getSolicitacoesByControle(this.controle.id)
     .subscribe(
     data => {
         this.controle.solicitacoes = data;
@@ -298,15 +272,15 @@ solicitaEDevolveEquipamento(controle:Controle){
 
 
 findIndexById(id: Number): number {
-    let index = -1;
-    for (let i = 0; i < this.equipamentos.length; i++) {
-        if (this.equipamentos[i].id === id) {
-            index = i;
-            break;
-        }
-    }
+  let index = -1;
+  for (let i = 0; i < this.controles.length; i++) {
+      if (this.controles[i].id === id) {
+          index = i;
+          break;
+      }
+  }
 
-    return index;
+  return index;
 }
 
 

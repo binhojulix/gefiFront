@@ -16,21 +16,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 exports.__esModule = true;
 exports.ControleComponent = void 0;
 var core_1 = require("@angular/core");
 var ControleComponent = /** @class */ (function () {
-    function ControleComponent(controleService, messageService, usuarioService, equipamentoService, authenticationService, confirmationService) {
+    function ControleComponent(solicitacaoService, controleService, messageService, pendenciaService, usuarioService, equipamentoService, authenticationService, confirmationService) {
         var _this = this;
+        this.solicitacaoService = solicitacaoService;
         this.controleService = controleService;
         this.messageService = messageService;
+        this.pendenciaService = pendenciaService;
         this.usuarioService = usuarioService;
         this.equipamentoService = equipamentoService;
         this.authenticationService = authenticationService;
@@ -41,25 +36,16 @@ var ControleComponent = /** @class */ (function () {
     ControleComponent.prototype.ngOnInit = function () {
         this.listarControles();
     };
-    ControleComponent.prototype.listarControles = function () {
-        var _this = this;
-        this.controleService.getControles()
-            .subscribe(function (data) {
-            _this.controles = data;
-        }, function (error) {
-            console.log(error);
-        });
-    };
-    ControleComponent.prototype.abrirNovo = function () {
+    //associa equipamento ao usuario ou a área
+    ControleComponent.prototype.abrirNovoControle = function () {
         this.controle = {};
         this.submitted = false;
         this.controleDialogo = true;
-        this.listarUsuarios();
-        this.listarEquipamentos();
     };
-    ControleComponent.prototype.esconderDialogo = function () {
-        this.controleDialogo = false;
+    ControleComponent.prototype.abrirNovaPendencia = function () {
+        this.pendencia = {};
         this.submitted = false;
+        this.pendenciaDialogo = true;
     };
     ControleComponent.prototype.listarUsuarios = function () {
         var _this = this;
@@ -79,44 +65,125 @@ var ControleComponent = /** @class */ (function () {
             console.log(error);
         });
     };
-    ControleComponent.prototype.salvarControle = function () {
+    ControleComponent.prototype.listarControles = function () {
         var _this = this;
-        this.submitted = true;
-        this.controleService.addControle(this.controle)
-            .subscribe(function (response) {
-            console.log(response);
-            _this.submitted = true;
+        this.controleService.getControles()
+            .subscribe(function (data) {
+            _this.controles = data;
         }, function (error) {
             console.log(error);
         });
-        this.controles.push(this.controle);
-        this.messageService.add({ severity: 'success', summary: 'Successful',
-            detail: 'Controle feita com sucesso', life: 3000 });
-        this.usuarios = __spreadArrays(this.usuarios);
-        this.controleDialogo = false;
-        this.controle = {};
     };
-    ControleComponent.prototype.editaEquipamento = function (controle) {
-        this.controle = __assign({}, controle);
-        this.controleDialogo = true;
-    };
-    ControleComponent.prototype.devolveControle = function (controle) {
+    ControleComponent.prototype.adicionaControle = function () {
         var _this = this;
-        var id = controle.id;
+        this.controleService.addControle(this.controle)
+            .subscribe(function (response) {
+            _this.controles = _this.controles.filter(function (val) { return val.id
+                !== _this.controle.id; });
+            _this.controle = {};
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    ControleComponent.prototype.escondeControle = function () {
+        this.controleDialogo = false;
+    };
+    ControleComponent.prototype.escondePendencia = function () {
+        this.pendenciaDialogo = false;
+    };
+    ControleComponent.prototype.escondeVisualizacao = function () {
+        this.visualizarDialogo = false;
+    };
+    ControleComponent.prototype.registraEResolvePendencia = function (controle) {
+        var _this = this;
+        var disponivel = controle.disponivel;
+        controle.disponivel = !disponivel;
+        this.controleService.updateControle(controle)
+            .subscribe(function (response) {
+            if (disponivel) {
+                _this.pendencia.data_pendencia = new Date();
+                _this.pendencia.controle = controle;
+                _this.pendenciaService.addPendencia(_this.pendencia)
+                    .subscribe(function (response) {
+                    _this.pendencia = {};
+                }, function (error) {
+                    console.log(error);
+                });
+            }
+            else {
+                _this.pendencia.data_pendencia = new Date();
+                _this.pendencia.controle = _this.controle;
+                _this.pendenciaService.updatePendencia(_this.pendencia)
+                    .subscribe(function (response) {
+                    _this.pendencia = {};
+                }, function (error) {
+                    console.log(error);
+                });
+            }
+            _this.controles = _this.controles.filter(function (val) { return val.id
+                !== controle.id; });
+            _this.controle = {};
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    ControleComponent.prototype.visualizar = function (controle) {
+        var _this = this;
+        this.controle = __assign({}, controle);
+        this.visualizarDialogo = true;
+        this.solicitacaoService.getSolicitacoesByControle(this.controle.id)
+            .subscribe(function (data) {
+            _this.controle.solicitacoes = data;
+        }, function (error) {
+            console.log(error);
+        });
+        this.pendenciaService.getPendenciasByControle(controle.id)
+            .subscribe(function (data) {
+            _this.controle.pendencias = data;
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    ControleComponent.prototype.solicitaEDevolveEquipamento = function (controle) {
+        var _this = this;
+        var disponivel = controle.disponivel;
+        var mensagem = "Solicitar o Equipamento " + controle.equipamento.descricao + " ?";
+        if (disponivel) {
+            "Devolver o Equipamento " + controle.equipamento.descricao + " ?";
+        }
         this.confirmationService.confirm({
-            message: 'Solicitar o equipamento ' + controle.equipamento.descricao + '?',
+            message: mensagem,
             header: 'Confirmar',
-            icon: 'pi pi-exclamation-triangle',
+            icon: 'pi pi-exclamation-check',
             acceptLabel: 'Sim',
             rejectLabel: 'Não',
             accept: function () {
+                controle.disponivel = !disponivel;
                 _this.controleService.updateControle(controle)
                     .subscribe(function (response) {
-                    console.log(response);
+                    if (disponivel) {
+                        _this.solicitacao.usuario = _this.currentUser;
+                        _this.solicitacao.data_solicitacao = new Date();
+                        _this.solicitacao.controle = controle;
+                        _this.solicitacaoService.addSolicitacao(_this.solicitacao)
+                            .subscribe(function (response) {
+                            _this.solicitacao = {};
+                        }, function (error) {
+                            console.log(error);
+                        });
+                    }
+                    else {
+                        _this.solicitacao.data_devolucao = new Date();
+                        _this.solicitacaoService.updateSolicitacao(_this.solicitacao)
+                            .subscribe(function (response) {
+                            _this.solicitacao = {};
+                        }, function (error) {
+                            console.log(error);
+                        });
+                    }
                     _this.controles = _this.controles.filter(function (val) { return val.id
                         !== controle.id; });
                     _this.controle = {};
-                    _this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Equipamento solicitado', life: 3000 });
                 }, function (error) {
                     console.log(error);
                 });
@@ -125,8 +192,8 @@ var ControleComponent = /** @class */ (function () {
     };
     ControleComponent.prototype.findIndexById = function (id) {
         var index = -1;
-        for (var i = 0; i < this.equipamentos.length; i++) {
-            if (this.equipamentos[i].id === id) {
+        for (var i = 0; i < this.controles.length; i++) {
+            if (this.controles[i].id === id) {
                 index = i;
                 break;
             }

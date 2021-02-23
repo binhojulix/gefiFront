@@ -11,6 +11,9 @@ const httpOptions = {
 
 
 const apiUrl = `${environment.apiUrl}/pendencias`;
+@Injectable({
+  providedIn: 'root'
+})
 export class PendenciaService {
   constructor(private http: HttpClient) { }
 
@@ -86,6 +89,6 @@ export class PendenciaService {
     return (error: any): Observable<T> => {
       console.error(error);
       return of(result as T);
-    };
+    }
   }
 }
