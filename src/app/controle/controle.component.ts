@@ -147,14 +147,11 @@ export class ControleComponent implements OnInit {
 
 
 adicionaPendencia(){
-   console.log(this.controle)
+
   if(!this.controle.pendente){
     this.pendencia.controle_id = this.controle.id;
     this.pendenciaService.addPendencia(this.pendencia).subscribe(
       response=>{
-        this.controle.pendente=false;
-        this.controle.status="COM PENDENCIA";
-        this.controles[this.findIndexById(this.controle.id)] = this.controle;
       },error=>{
         throw error;
       }
@@ -162,15 +159,13 @@ adicionaPendencia(){
   }else{
     this.pendenciaService.updatePendencia(this.pendencia).subscribe(
       response=>{
-        this.controle.pendente=true;
-        this.controle.status="SEM PENDENCIA"
-        this.controles[this.findIndexById(this.controle.id)] = this.controle;
       },error=>{
         throw error;
       }
     )
   }
   
+  this.listarControles(false)
   this.pendencia={};
   this.controle={};
   this.pendenciaDialogo=false;
