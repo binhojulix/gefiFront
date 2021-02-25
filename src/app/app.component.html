@@ -1,11 +1,36 @@
 ﻿﻿<!-- nav -->
 <nav class="navbar navbar-expand navbar-dark bg-danger"  *ngIf="currentUser">
-    <div class="navbar-nav text-white">
-        <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-        <a class="nav-item nav-link" routerLink="/usuario" routerLinkActive="active" *ngIf="currentUser.role === 'ADMIN'">Usuario</a>
-        <a class="nav-item nav-link" routerLink="/equipamento" routerLinkActive="active" *ngIf="currentUser.role === 'ADMIN' || currentUser.privilegio === 'GESTOR'">Equipamento</a>
-        <a class="nav-item nav-link" routerLink="/controle" routerLinkActive="active">Controle</a>
-        <a class="nav-item nav-link" (click)="logout()">Logout</a>
+
+
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link" routerLink="/usuario" routerLinkActive="active" *ngIf="currentUser.role === 'ADMIN'">Usuario</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link" routerLink="/equipamento" routerLinkActive="active" *ngIf="currentUser.role === 'ADMIN' || currentUser.privilegio === 'GESTOR'">Equipamento</a>
+        
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link" routerLink="/controle" routerLinkActive="active">Controle</a>
+        
+            </li>
+        
+        </ul>
+    </div>
+
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-item nav-link" (click)="logout()">Logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">{{currentUser.login}}</a>
+            </li>
+        </ul>
     </div>
 </nav>
 

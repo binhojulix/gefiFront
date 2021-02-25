@@ -26,13 +26,7 @@ export class PendenciaService {
       );
   }
 
-  getPendenciasByControle(id_controle:Number): Observable<Pendencia[]> {
-    return this.http.get<Pendencia[]>(apiUrl)
-      .pipe(
-        tap(pendencias => console.log('leu os Pendencias')),
-        catchError(this.handleError('getPendencias', []))
-      );
-  }
+
 
   getPendenciasDoUsuario(): Observable<Pendencia[]> {
     return this.http.get<Pendencia[]>(apiUrl)
@@ -58,8 +52,16 @@ export class PendenciaService {
     );
   }
 
+  getPendenciaPorControleId(controle_id: Number): Observable<Pendencia> {
+    const url = `${apiUrl}/controle/${controle_id}`;
+    return this.http.get<Pendencia>(url).pipe(
+      tap(_ => console.log(`leu a Pendencia id=${controle_id}`)),
+      catchError(this.handleError<Pendencia>(`getPendenciaPorControleId controle_id=${controle_id}`))
+    );
+  }
+
   //adiciona um novo Pendencia
-  addPendencia (pendencia): Observable<Pendencia> {
+  addPendencia (pendencia:Pendencia): Observable<Pendencia> {
     return this.http.post<Pendencia>(apiUrl, pendencia, httpOptions).pipe(
       // tslint:disable-next-line:no-shadowed-variable
       tap((pendencia: Pendencia) => console.log(`adicionou a Pendencia`)),
@@ -70,7 +72,7 @@ export class PendenciaService {
   //atualiza um Pendencia
   updatePendencia(pendencia): Observable<any> {
     const url = `${apiUrl}/${pendencia.id}`;
-    return this.http.put(url, pendencia, httpOptions).pipe(
+    return this.http.patch(url, pendencia, httpOptions).pipe(
       tap(_ => console.log(`atualiza o Pendencia`)),
       catchError(this.handleError<any>('updatePendencia'))
     );

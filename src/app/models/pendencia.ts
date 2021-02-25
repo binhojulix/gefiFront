@@ -8,5 +8,6 @@ export interface Pendencia {
     data_pendencia?:Date;
     data_solucao?:Date; 
     controle?:Controle;
+    controle_id?:Number;
   
 }

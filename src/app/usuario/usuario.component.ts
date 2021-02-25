@@ -21,7 +21,7 @@ export class UsuarioComponent implements OnInit {
 
     usuarioDialogo: boolean;
 
-    Areas: Area[];
+    areas: Area[];
     AreaSelecionado: Area;
  
 
@@ -51,7 +51,8 @@ export class UsuarioComponent implements OnInit {
         this.areaService.getAreas()
             .subscribe(
                 data => {
-                    this.Areas = data;
+                    this.areas = data;
+                    console.log(this.areas)
                 },
                 error => {
                     console.log(error);

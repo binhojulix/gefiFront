@@ -92,7 +92,7 @@ export class ControleComponent implements OnInit {
 
 
   listarEquipamentos():void{
-    this.equipamentoService.getEquipamentosNaoAssociados()
+    this.equipamentoService.getEquipamentos()
         .subscribe(
             data => {
                 this.equipamentos = data;
@@ -127,34 +127,80 @@ export class ControleComponent implements OnInit {
     this.pendencia = {};
     this.submitted = false;
     this.pendenciaDialogo = true;
-    if(controle.pendente){
+
+    if(this.controle.pendente){
       this.status_pendencia ="Finalizar Pendência";
+      this.pendenciaService.getPendenciaPorControleId(this.controle.id)
+      .subscribe(
+        data => {
+            this.pendencia = data;
+            console.log(this.pendencia)
+        },
+        error => {
+            throw error;
+        });
     }else{
       this.status_pendencia ="Nova Pendência";
     }
+}
+
+
+
+adicionaPendencia(){
+   console.log(this.controle)
+  if(!this.controle.pendente){
+    this.pendencia.controle_id = this.controle.id;
+    this.pendenciaService.addPendencia(this.pendencia).subscribe(
+      response=>{
+        this.controle.pendente=false;
+        this.controle.status="COM PENDENCIA";
+        this.controles[this.findIndexById(this.controle.id)] = this.controle;
+      },error=>{
+        throw error;
+      }
+    )
+  }else{
+    this.pendenciaService.updatePendencia(this.pendencia).subscribe(
+      response=>{
+        this.controle.pendente=true;
+        this.controle.status="SEM PENDENCIA"
+        this.controles[this.findIndexById(this.controle.id)] = this.controle;
+      },error=>{
+        throw error;
+      }
+    )
   }
+  
+  this.pendencia={};
+  this.controle={};
+  this.pendenciaDialogo=false;
+
+}
+
 
   visualizar(controle:Controle){
     this.visualizarDialogo=true;
-
-     var a:Pendencia = {
-      id:1,
-      solucao_pendencia:"teste",
-      data_pendencia:new Date(),
-      data_solucao:new Date(),
-      motivo_pendencia:"testanto"
+    this.controle=controle;
+    if(this.controle.coletivo){
+      this.solicitacaoService.getSolicitacaoPorControleId(this.controle.id)
+      .subscribe(
+        data => {
+            this.solicitacao = data;
+        },
+        error => {
+            console.log(error);
+        });
+    }else{
+      this.pendenciaService.getPendenciaPorControleId(this.controle.id)
+      .subscribe(
+        data => {
+            this.pendencia = data;
+        },
+        error => {
+            console.log(error);
+        });
     }
-    this.pendencia = a;
-
-    var b:Solicitacao = {
-      id:1,
-      data_devolucao:new Date(),
-      data_solicitacao:new Date(),
-      usuario:this.currentUser
-    }
-    this.solicitacao = b;
    
-
   }
 
 
@@ -176,81 +222,85 @@ export class ControleComponent implements OnInit {
 
 
   adicionaControle(){
-
+    this.controleService.addControle(this.controle)
+      .subscribe(
+        response=>{
+          console.log("controle adicionado")
+        },
+        error=>{
+          throw error;
+        }
+      );
+      this.controleDialogo=false;
   }  
 
   solicitaEquipamento(controle:Controle){
-    const id = controle.id;
-
+    this.controle = controle;
     this.confirmationService.confirm({
-        message: `Solicitar o equipamento ${controle.equipamento.descricao} ?`,
+        message: `Solicitar o equipamento ${this.controle.equipamento.descricao} ?`,
         header: 'Confirmar',
         icon: 'pi pi-exclamation-triangle',
         acceptLabel:'Sim',
         rejectLabel:'Não',
 
         accept: () => {
-          controle.status="INDISPONIVEL";
-          controle.disponivel=false;
-
-            this.controleService.updateControle(controle)
+            this.solicitacao.controle = this.controle;
+            this.solicitacao.usuario = this.currentUser;
+            this.solicitacaoService.addSolicitacao(this.solicitacao)
             .subscribe(
                 response => {
                     this.controles[this.findIndexById(controle.id)] = controle
                     this.messageService.add({severity:'success', summary: 'Successful', detail: 'Controle selecionado', life: 3000});
                 },
                 error => {
-                console.log(error);
+                  throw error;
                 });
-
-           
+                this.controle={};
+                this.solicitacao={};
         }
     });
   }
+
 
   devolveEquipamento(controle:Controle){
-    const id = controle.id;
+    this.controle = controle;
+    this.solicitacaoService.getSolicitacaoPorControleId(this.controle.id)
+    .subscribe(
+      data => {
+          this.solicitacao = data;
+      },
+      error => {
+          console.log(error);
+      });
 
     this.confirmationService.confirm({
-        message: `Devolver o equipamento ${controle.equipamento.descricao} ?`,
+        message: `Devolver o equipamento ${this.controle.equipamento.descricao} ?`,
         header: 'Confirmar',
         icon: 'pi pi-exclamation-triangle',
         acceptLabel:'Sim',
         rejectLabel:'Não',
 
         accept: () => {
-          
-            controle.status="DISPONIVEL";
-            controle.disponivel=true;
-            this.controleService.updateControle(controle)
-            .subscribe(
-                response => {
-                    console.log(response);
-                    this.controles[this.findIndexById(controle.id)] = controle
-                    this.messageService.add({severity:'success', summary: 'Successful', detail: 'Controle selecionado', life: 3000});
+            this.solicitacaoService.updateSolicitacao(this.solicitacao).subscribe(
+              response=>{
+                  this.controles[this.findIndexById(controle.id)] = controle;
+                  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Controle selecionado', life: 3000});
                 },
                 error => {
-                console.log(error);
+                  throw error;
                 });
-
-           
+                this.controle={};
+                this.solicitacao={};
         }
     });
   }
 
-
-  adicionaPendencia(controle:Controle){
-
-  }
-
-  atualizaPendencia(controle:Controle){
-
-  }
+ 
 
   findIndexById(id: Number): number {
     let index = -1;
-    for (let i = 0; i < this.equipamentos.length; i++) {
-        if (this.equipamentos[i].id === id) {
+    for (let i = 0; i < this.controles.length; i++) {
+        if (this.controles[i].id === id) {
             index = i;
             break;
         }

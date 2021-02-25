@@ -67,7 +67,9 @@
      
         <div class="p-field">
             <label for="nome">Departamento</label>
-            <p-dropdown [options]="departamentos" [(ngModel)]="departamentoSelecionado" placeholder="Departamento" optionLabel="descricao_departamento" ></p-dropdown>
+
+             <p-dropdown [options]="departamentos" [(ngModel)]="usuario.area" 
+             placeholder="Departamento" optionLabel="descricao"></p-dropdown>
         </div>
 
         
@@ -95,11 +97,11 @@
             <label class="p-mb-3">Privilégio</label>
             <div class="p-formgrid p-grid">
                 <div class="p-field-radiobutton p-col-6">
-                    <p-radioButton id="category2" name="category" value="GESTOR" [(ngModel)]="usuario.privilegio"></p-radioButton>
+                    <p-radioButton id="category2" name="category" value="GESTOR" [(ngModel)]="usuario.role"></p-radioButton>
                     <label for="category2">Gestor</label>
                 </div>
                 <div class="p-field-radiobutton p-col-6">
-                    <p-radioButton id="category3" name="category" value="USER" [(ngModel)]="usuario.privilegio"></p-radioButton>
+                    <p-radioButton id="category3" name="category" value="USER" [(ngModel)]="usuario.role"></p-radioButton>
                     <label for="category3">Usuário</label>
                 </div>
                 

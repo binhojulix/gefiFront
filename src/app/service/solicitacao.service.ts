@@ -29,12 +29,12 @@ export class SolicitacaoService {
       );
   }
 
-  getSolicitacoesByControle(id_controle:Number): Observable<Solicitacao[]> {
-    return this.http.get<Solicitacao[]>(apiUrl)
-      .pipe(
-        tap(solicitacoes => console.log('leu os Solicitacoes')),
-        catchError(this.handleError('getSolicitacoes', []))
-      );
+  getSolicitacaoPorControleId(controle_id: Number): Observable<Solicitacao> {
+    const url = `${apiUrl}/controle/${controle_id}`;
+    return this.http.get<Solicitacao>(url).pipe(
+      tap(_ => console.log(`leu a Solicitacao id=${controle_id}`)),
+      catchError(this.handleError<Solicitacao>(`getSolicitacaoPorControleId controle_id=${controle_id}`))
+    );
   }
 
 
@@ -72,11 +72,11 @@ export class SolicitacaoService {
   }
 
   //atualiza um Solicitacao
-  updateSolicitacao(Solicitacao): Observable<any> {
-    const url = `${apiUrl}/${Solicitacao.id}`;
-    return this.http.put(url, Solicitacao, httpOptions).pipe(
+  updateSolicitacao(solicitacao:Solicitacao): Observable<Solicitacao> {
+    const url = `${apiUrl}/${solicitacao.id}`;
+    return this.http.put(url, solicitacao, httpOptions).pipe(
       tap(_ => console.log(`atualiza o Solicitacao`)),
-      catchError(this.handleError<any>('updateSolicitacao'))
+      catchError(this.handleError<Solicitacao>('updateSolicitacao'))
     );
   }
 
