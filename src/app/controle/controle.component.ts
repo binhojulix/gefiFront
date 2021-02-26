@@ -217,6 +217,7 @@ adicionaPendencia(){
 
 
   adicionaControle(){
+    console.log(`${this.controle}`)
     this.controleService.addControle(this.controle)
       .subscribe(
         response=>{
@@ -239,13 +240,15 @@ adicionaPendencia(){
         rejectLabel:'Não',
 
         accept: () => {
-            this.solicitacao.controle = this.controle;
-            this.solicitacao.usuario = this.currentUser;
+            this.solicitacao ={
+              controle : this.controle,
+              usuario: this.currentUser
+            }
             this.solicitacaoService.addSolicitacao(this.solicitacao)
             .subscribe(
                 response => {
-                    this.controles[this.findIndexById(controle.id)] = controle
-                    this.messageService.add({severity:'success', summary: 'Successful', detail: 'Controle selecionado', life: 3000});
+                    this.controles[this.findIndexById(controle.id)] = this.controle
+                    this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento solicitado', life: 3000});
                 },
                 error => {
                   throw error;
@@ -259,17 +262,20 @@ adicionaPendencia(){
 
   devolveEquipamento(controle:Controle){
     this.controle = controle;
+
     this.solicitacaoService.getSolicitacaoPorControleId(this.controle.id)
     .subscribe(
       data => {
           this.solicitacao = data;
+          console.log(this.solicitacao)
       },
       error => {
           console.log(error);
       });
 
     this.confirmationService.confirm({
-        message: `Devolver o equipamento ${this.controle.equipamento.descricao} ?`,
+
+        message: `Devolver o equipamento ${this.controle.equipamento.descricao} ? `,
         header: 'Confirmar',
         icon: 'pi pi-exclamation-triangle',
         acceptLabel:'Sim',
@@ -278,8 +284,8 @@ adicionaPendencia(){
         accept: () => {
             this.solicitacaoService.updateSolicitacao(this.solicitacao).subscribe(
               response=>{
-                  this.controles[this.findIndexById(controle.id)] = controle;
-                  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Controle selecionado', life: 3000});
+                  this.controles[this.findIndexById(controle.id)] = this.controle;
+                  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento devolvido', life: 3000});
                 },
                 error => {
                   throw error;
@@ -287,6 +293,7 @@ adicionaPendencia(){
                 this.controle={};
                 this.solicitacao={};
         }
+
     });
   }
 

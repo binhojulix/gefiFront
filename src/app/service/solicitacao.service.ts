@@ -74,7 +74,7 @@ export class SolicitacaoService {
   //atualiza um Solicitacao
   updateSolicitacao(solicitacao:Solicitacao): Observable<Solicitacao> {
     const url = `${apiUrl}/${solicitacao.id}`;
-    return this.http.put(url, solicitacao, httpOptions).pipe(
+    return this.http.patch(url, solicitacao, httpOptions).pipe(
       tap(_ => console.log(`atualiza o Solicitacao`)),
       catchError(this.handleError<Solicitacao>('updateSolicitacao'))
     );

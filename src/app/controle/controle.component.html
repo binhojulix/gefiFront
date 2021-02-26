@@ -136,6 +136,22 @@
             [showClear]="true" placeholder="Selecione o Equipamento">
         </p-dropdown>
         </div>
+
+        <div class="p-field">
+            <label class="p-mb-3">Tipo</label>
+            <div class="p-formgrid p-grid">
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="category2" name="category" value="1" [(ngModel)]="controle.coletivo"></p-radioButton>
+                    <label for="category2">Coletivo</label>
+                </div>
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="category3" name="category" value="0" [(ngModel)]="controle.coletivo"></p-radioButton>
+                    <label for="category3">Individual</label>
+                </div>
+                
+            </div>
+        </div>
+
     </ng-template>
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="fecharControleDialogo()"></button>

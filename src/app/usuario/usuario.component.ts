@@ -110,7 +110,7 @@ export class UsuarioComponent implements OnInit {
         
 
         if (this.usuario.nome.trim()) {
-            this.usuario.area = this.AreaSelecionado;
+          
         
             if (this.usuario.id) {
                 this.usuarioService.updateUsuario(this.usuario.id, this.usuario)
