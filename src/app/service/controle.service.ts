@@ -21,8 +21,8 @@ export class ControleService {
   constructor(private http: HttpClient) { }
 
   //lista todos os controles
-  getControles(coletivo:boolean): Observable<Controle[]> {
-    const url = `${apiUrl}/coletivo/${coletivo}`;
+  getControles(coletivo:boolean, role:string, usuario_id:Number, area_id:Number): Observable<Controle[]> {
+    const url = `${apiUrl}/coletivo/${coletivo}/role/${role}/usuario/${usuario_id}/area/${area_id}`;
     return this.http.get<Controle[]>(url)
       .pipe(
         tap(controles => console.log(`leu os Controles coletivos${coletivo}`)),
@@ -32,7 +32,7 @@ export class ControleService {
 
   
 
-  getControlesDoUsuario(): Observable<Controle[]> {
+  getControlesDoUsuario(usuario_id:Number): Observable<Controle[]> {
     return this.http.get<Controle[]>(apiUrl)
       .pipe(
         tap(controles => console.log('leu os Controles')),
@@ -41,7 +41,7 @@ export class ControleService {
   }
 
 
-  getControlesDaArea(): Observable<Controle[]> {
+  getControlesDaArea(area_id:Number): Observable<Controle[]> {
     return this.http.get<Controle[]>(apiUrl)
       .pipe(
         tap(controles => console.log('leu os Controles')),

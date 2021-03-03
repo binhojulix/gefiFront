@@ -92,7 +92,7 @@ export class ControleComponent implements OnInit {
 
 
   listarEquipamentos():void{
-    this.equipamentoService.getEquipamentos()
+    this.equipamentoService.getEquipamentosNaoAssociados()
         .subscribe(
             data => {
                 this.equipamentos = data;
@@ -104,7 +104,10 @@ export class ControleComponent implements OnInit {
 
 
   listarControles(coletivo:boolean): void {
-    this.controleService.getControles(coletivo)
+    const role = this.currentUser.role;
+    const usuario_id = this.currentUser.id;
+
+    this.controleService.getControles(coletivo, role, usuario_id, this.currentUser.area.id)
         .subscribe(
         data => {
             this.controles = data;
@@ -148,24 +151,35 @@ export class ControleComponent implements OnInit {
 
 adicionaPendencia(){
 
-  if(!this.controle.pendente){
+  const verificar = this.controle.pendente;
+  if(!verificar){
     this.pendencia.controle_id = this.controle.id;
     this.pendenciaService.addPendencia(this.pendencia).subscribe(
       response=>{
+       
       },error=>{
         throw error;
       }
     )
+  
+
   }else{
     this.pendenciaService.updatePendencia(this.pendencia).subscribe(
       response=>{
+      
       },error=>{
         throw error;
       }
     )
+   
   }
-  
-  this.listarControles(false)
+  this.controles[this.findIndexById(this.controle.id)].pendente = !verificar;
+  if(verificar){
+    this.controles[this.findIndexById(this.controle.id)].status="SEM PENDENCIA";
+  }else{
+    this.controles[this.findIndexById(this.controle.id)].status="COM PENDENCIA";
+  }
+  console.log(this.controles[this.findIndexById(this.controle.id)])
   this.pendencia={};
   this.controle={};
   this.pendenciaDialogo=false;
@@ -247,7 +261,8 @@ adicionaPendencia(){
             this.solicitacaoService.addSolicitacao(this.solicitacao)
             .subscribe(
                 response => {
-                    this.controles[this.findIndexById(controle.id)] = this.controle
+                    //this.controles[this.findIndexById(controle.id)] = this.controle
+                    this.controles[this.findIndexById(controle.id)].disponivel = false;
                     this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento solicitado', life: 3000});
                 },
                 error => {
@@ -257,6 +272,9 @@ adicionaPendencia(){
                 this.solicitacao={};
         }
     });
+
+      this.controles[this.findIndexById(this.controle.id)].status="INDISPONIVEL";
+   
   }
 
 
@@ -284,7 +302,8 @@ adicionaPendencia(){
         accept: () => {
             this.solicitacaoService.updateSolicitacao(this.solicitacao).subscribe(
               response=>{
-                  this.controles[this.findIndexById(controle.id)] = this.controle;
+                //  this.controles[this.findIndexById(controle.id)] = this.controle;
+                  this.controles[this.findIndexById(controle.id)].disponivel = true;
                   this.messageService.add({severity:'success', summary: 'Successful', detail: 'Equipamento devolvido', life: 3000});
                 },
                 error => {
@@ -295,6 +314,7 @@ adicionaPendencia(){
         }
 
     });
+    this.controles[this.findIndexById(this.controle.id)].status="DISPONIVEL";
   }
 
  

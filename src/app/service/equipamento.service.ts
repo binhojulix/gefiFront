@@ -30,7 +30,7 @@ export class EquipamentoService {
 
   //lista equipamentos nao associados
   getEquipamentosNaoAssociados(): Observable<Equipamento[]> {
-    const apiUrl = `${environment.apiUrl}/equipamentosnaoassociados`;
+    const apiUrl = `${environment.apiUrl}/equipamentos/nao-associados`;
     return this.http.get<Equipamento[]>(apiUrl)
       .pipe(
         tap(equipamentos => console.log('leu os equipamentos')),
